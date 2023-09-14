@@ -1,0 +1,186 @@
+<h1 class="mt-5 mb-4 pb-2 pb-md-0 mb-md-1 px-md-2 text-center">Users to be verified</h1>
+<div class="p-5">
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th scope="col">Type</th>
+            <th scope="col">Picture</th>
+            <th scope="col">Username</th>
+            <th scope="col">Password</th>
+            <th scope="col">Phone</th>
+            <th scope="col">Email</th>
+            <th scope="col">Firstname</th>
+            <th scope="col">Lastname</th>
+            <th scope="col">Address</th>
+            <th scope="col">LicenseID</th>
+            <th scope="col">Specialization</th>
+            <th scope="col">Branch</th>
+            <th scope="col">Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="table-secondary" *ngFor="let user of notVerifiedUsers">
+            <th scope="row">{{user.userType}}</th>
+            <td>
+                <img src="{{user.picturePath}}" alt="user picture" width="100" height="100">
+            </td>
+            <td>{{user.username}}</td>
+            <td>{{user.password}}</td>
+            <td>{{user.phone}}</td>
+            <td>{{user.email}}</td>
+            <td>{{user.firstname}}</td>
+            <td>{{user.lastname}}</td>
+            <td>{{user.address}}</td>
+            <td>{{user.licenseID || 'not defined'}}</td>
+            <td>{{user.specialization || 'not defined'}}</td>
+            <td>{{user.branch || 'not defined'}}</td>
+            <td>
+                <button type="button" class="btn btn-primary" (click)="verifyUser(user)">Verify</button>
+                <button type="button" class="btn btn-primary" (click)="declineUser(user)">Decline</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<h1 class="mb-4 pb-2 pb-md-0 mb-md-1 px-md-2 text-center">All verified users</h1>
+<div class="p-5">
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th scope="col">Type</th>
+            <th scope="col">Picture</th>
+            <th scope="col">Username</th>
+            <th scope="col">Password</th>
+            <th scope="col">Phone</th>
+            <th scope="col">Email</th>
+            <th scope="col">Firstname</th>
+            <th scope="col">Lastname</th>
+            <th scope="col">Address</th>
+            <th scope="col">LicenseID</th>
+            <th scope="col">Specialization</th>
+            <th scope="col">Branch</th>
+            <th scope="col">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="table-secondary" *ngFor="let user of verifiedUsers">
+            <th class="text-center align-middle" scope="row">{{user.userType}}</th>
+            <td>
+                <img src="{{user.picturePath}}" alt="user picture" width="100" height="100">
+            </td>
+            <td class="text-center align-middle">
+                <div class="d-flex justify-content-center align-items-center" *ngIf="!user.isEditEnabled">
+                    {{user.username}}
+                </div>
+                <div class="d-flex justify-content-center align-items-center" *ngIf="user.isEditEnabled">
+                    <input type="text" class="form-control" [(ngModel)]="user.username" *ngIf="user.isEditEnabled">
+                </div>
+            </td>
+            <td class="text-center align-middle">
+                <div class="d-flex justify-content-center align-items-center" *ngIf="!user.isEditEnabled">
+                    {{user.password}}
+                </div>
+                <div class="d-flex justify-content-center align-items-center" *ngIf="user.isEditEnabled">
+                    <input type="text" class="form-control" [(ngModel)]="user.password" *ngIf="user.isEditEnabled">
+                </div>
+            </td>
+            <td class="text-center align-middle">
+                <div class="d-flex justify-content-center align-items-center" *ngIf="!user.isEditEnabled">
+                    {{user.phone}}
+                </div>
+                <div class="d-flex justify-content-center align-items-center" *ngIf="user.isEditEnabled">
+                    <input type="text" class="form-control" [(ngModel)]="user.phone" *ngIf="user.isEditEnabled">
+                </div>
+            </td>
+            <td class="text-center align-middle">
+                <div class="d-flex justify-content-center align-items-center" *ngIf="!user.isEditEnabled">
+                    {{user.email}}
+                </div>
+                <div class="d-flex justify-content-center align-items-center" *ngIf="user.isEditEnabled">
+                    <input type="text" class="form-control" [(ngModel)]="user.email" *ngIf="user.isEditEnabled">
+                </div>
+            </td>
+            <td class="text-center align-middle">
+                <div class="d-flex justify-content-center align-items-center" *ngIf="!user.isEditEnabled">
+                    {{user.firstname}}
+                </div>
+                <div class="d-flex justify-content-center align-items-center" *ngIf="user.isEditEnabled">
+                    <input type="text" class="form-control" [(ngModel)]="user.firstname" *ngIf="user.isEditEnabled">
+                </div>
+            </td>
+            <td class="text-center align-middle">
+                <div class="d-flex justify-content-center align-items-center" *ngIf="!user.isEditEnabled">
+                    {{user.lastname}}
+                </div>
+                <div class="d-flex justify-content-center align-items-center" *ngIf="user.isEditEnabled">
+                    <input type="text" class="form-control" [(ngModel)]="user.lastname" *ngIf="user.isEditEnabled">
+                </div>
+            </td>
+            <td class="text-center align-middle">
+                <div class="d-flex justify-content-center align-items-center" *ngIf="!user.isEditEnabled">
+                    {{user.address}}
+                </div>
+                <div class="d-flex justify-content-center align-items-center" *ngIf="user.isEditEnabled">
+                    <input type="text" class="form-control" [(ngModel)]="user.address" *ngIf="user.isEditEnabled">
+                </div>
+            </td>
+            <td class="text-center align-middle">
+                <div class="d-flex justify-content-center align-items-center" *ngIf="user.licenseID">
+                    <div *ngIf="!user.isEditEnabled">
+                        {{user.licenseID}}
+                    </div>
+                    <div *ngIf="user.isEditEnabled">
+                        <input type="number" class="form-control" [(ngModel)]="user.licenseID"
+                               *ngIf="user.isEditEnabled">
+                    </div>
+                </div>
+                <div class="d-flex justify-content-center align-items-center" *ngIf="!user.licenseID">
+                    not defined
+                </div>
+            </td>
+            <td class="text-center align-middle">
+                <div class="d-flex justify-content-center align-items-center" *ngIf="user.specialization">
+                    <div *ngIf="!user.isEditEnabled">
+                        {{user.licenseID}}
+                    </div>
+                    <div *ngIf="user.isEditEnabled">
+                        <input type="number" class="form-control" [(ngModel)]="user.specialization"
+                               *ngIf="user.isEditEnabled">
+                    </div>
+                </div>
+                <div *ngIf="!user.specialization">
+                    not defined
+                </div>
+            </td>
+            <td class="text-center align-middle">
+                <div class="d-flex justify-content-center align-items-center" *ngIf="user.branch">
+                    <div *ngIf="!user.isEditEnabled">
+                        {{user.branch}}
+                    </div>
+                    <div *ngIf="user.isEditEnabled">
+                        <input type="number" class="form-control" [(ngModel)]="user.branch"
+                               *ngIf="user.isEditEnabled">
+                    </div>
+                </div>
+                <div *ngIf="!user.branch">
+                    not defined
+                </div>
+            </td>
+            <td class="text-center align-middle">
+                <div *ngIf="!user.isEditEnabled">
+                    <button type="button" class="btn btn-danger" (click)="enableEdit(user)">Edit</button>
+                </div>
+                <div *ngIf="user.isEditEnabled">
+                    <button type="button" class="btn btn-danger" (click)="disableEdit(user)">Cancel</button>
+                </div>
+                <div class="mt-2" *ngIf="user.isEditEnabled">
+                    <button type="button" class="btn btn-danger" (click)="editUser(user)">Apply</button>
+                </div>
+                <div class="mt-2">
+                    <button type="button" class="btn btn-primary" (click)="deleteUser(user)">Delete</button>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>

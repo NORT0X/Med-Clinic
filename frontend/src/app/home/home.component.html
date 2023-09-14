@@ -1,0 +1,12 @@
+<div *ngIf="!isLogged">
+    <app-unregistered></app-unregistered>
+</div>
+<div *ngIf="isPatient">
+    <app-patient></app-patient>
+</div>
+<div *ngIf="isDoctor">
+    <app-doctor></app-doctor>
+</div>
+<div *ngIf="isManager">
+    <app-manager></app-manager>
+</div>

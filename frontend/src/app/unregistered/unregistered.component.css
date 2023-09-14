@@ -1,0 +1,68 @@
+.carousel-section {
+    position: relative;
+    overflow: hidden;
+}
+
+.carousel-inner {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+}
+
+.carousel-item {
+    flex: 0 0 100%;
+    width: 100%;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.carousel-item img {
+    width: auto;
+    height: auto;
+    max-width: 80%;
+    max-height: 93vh;
+    align-content: center;
+    padding-top: 10vh;
+    padding-bottom: 25vh;
+    margin: auto;
+    display: block;
+    text-align: center;
+}
+
+.carousel-caption {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.75));
+    color: #fff;
+    padding: 10px;
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+    width: auto;
+    padding: 1rem 1rem 15rem;
+}
+.carousel-paragraph {
+    padding-bottom: 12vh;
+    font-size: 8pt;
+}
+
+@media (min-width: 768px) {
+    .carousel-paragraph {
+        padding-bottom: 6vh; /* Adjust padding for larger screens /
+    }
+}
+
+/ Media query for even larger screens /
+@media (min-width: 1200px) {
+    .carousel-paragraph {
+        padding-bottom: 4vh; / Further adjust padding for even larger screens /
+    }
+}
+
+@media (min-width: 2100px) {
+    .carousel-paragraph {
+        padding-bottom: 2vh; / Further adjust padding for even larger screens */
+    }
+}

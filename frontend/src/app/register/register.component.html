@@ -1,0 +1,58 @@
+<section class="h-100" style="background-color: #f8f8ff;;">
+    <div class="container py-5 h-50">
+        <div class="row d-flex justify-content-center align-items-center">
+            <div class="mb-5 col-lg-8 col-xl-6">
+                <div class="card rounded-3 px-5">
+                    <h3 class="mb-4 pb-2 pb-md-0 mb-md-1 px-md-2 text-center">Registration Info</h3>
+                    <div *ngIf="userType == 'Patient'">
+                        <form class="px-md-2">
+                            <h4 class="mb-4 pb-2 pb-md-0 mb-md-2 px-md-2 text-center">Patient Registration</h4>
+                            <div class="form-floating mb-4">
+                                <input type="text" id="form3Example1q" class="form-control form-control-lg" placeholder="Username" name="username" [(ngModel)]="username" required/>
+                                <label class="form-label" for="form3Example1q">Username</label>
+                            </div>
+                            <div class="form-floating mb-4">
+                                <input type="text" id="form3Example1q" class="form-control form-control-lg" placeholder="email" name="email" [(ngModel)]="email"/>
+                                <label class="form-label" for="form3Example1q">email</label>
+                            </div>
+                            <div class="form-floating mb-4">
+                                <input type="password" id="form3Example1q" class="form-control form-control-lg" placeholder="Password" name="password" [(ngModel)]="password"/>
+                                <label class="form-label" for="form3Example1q">Password</label>
+                            </div>
+                            <div class="form-floating mb-1">
+                                <input type="password" id="form3Example1q" class="form-control form-control-lg" placeholder="Confirm password" name="password_confirm" [(ngModel)]="password_confirm" />
+                                <label class="form-label" for="form3Example1q">Confirm password</label>
+                            </div>
+                            <hr/>
+                            <div class="form-floating mb-4 mt-4">
+                                <input type="text" id="form3Example1q" class="form-control form-control-lg" placeholder="Name" name="name" [(ngModel)]="firstname"/>
+                                <label class="form-label" for="form3Example1q">Name</label>
+                            </div>
+                            <div class="form-floating mb-4">
+                                <input type="text" id="form3Example1q" class="form-control form-control-lg" placeholder="Lastname" name="lastname" [(ngModel)]="lastname"/>
+                                <label class="form-label" for="form3Example1q">Lastname</label>
+                            </div>
+                            <div class="form-floating mb-4">
+                                <input type="text" id="form3Example1q" class="form-control form-control-lg" placeholder="Phone" name="phone" [(ngModel)]="phone"/>
+                                <label class="form-label" for="form3Example1q">Phone</label>
+                            </div>
+                            <div class="form-floating mb-4">
+                                <input type="text" id="form3Example1q" class="form-control form-control-lg" placeholder="Address" name="address" [(ngModel)]="address"/>
+                                <label class="form-label" for="form3Example1q">Address</label>
+                            </div>
+                            <div class="custom-file form-outline mb-4">
+                                <label for="imageFile" class="form-label mt-4">Select an image</label>
+                                <input class="form-control" id="imageFile" type="file"  (change)="fileChange($event)" aria-describedby="inputGroupFileAddon01"/>
+                            </div>
+              
+                            
+                            <button type="submit" class="btn btn-success btn-lg mb-4" (click)="register()">Register</button>
+              
+                        </form>
+                    </div>
+                    {{message}}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
