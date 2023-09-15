@@ -60,4 +60,8 @@ userRouter.route('/editUser').post(
     (req, res) => new UserController().editUser(req, res)
 )
 
+userRouter.route('/:id').get(
+    (req, res) => new UserController().getUserById(req, res)
+)
+
 export default userRouter;

@@ -1,0 +1,67 @@
+<section class="h-100">
+    <div class="container py-5 h-50">
+        <div class="row d-flex justify-content-center align-items-center">
+            <div class="mb-5 col-lg-8 col-xl-6">
+                <div class="card rounded-3 px-5">
+                    <h3 class="mt-4 mb-4 pb-2 pb-md-0 mb-md-4 px-md-2 text-center">Add Doctor</h3>
+                        <form class="px-md-2">
+                            <div class="form-floating mb-4">
+                                <input type="text" id="form3Example1q" class="form-control form-control-lg" placeholder="Username" name="username" [(ngModel)]="doctorToAdd.username" required/>
+                                <label class="form-label" for="form3Example1q">Username</label>
+                            </div>
+                            <div class="form-floating mb-4">
+                                <input type="text" id="form3Example1q" class="form-control form-control-lg" placeholder="email" name="email" [(ngModel)]="doctorToAdd.email"/>
+                                <label class="form-label" for="form3Example1q">email</label>
+                            </div>
+                            <div class="form-floating mb-4">
+                                <input type="password" id="form3Example1q" class="form-control form-control-lg" placeholder="Password" name="password" [(ngModel)]="doctorToAdd.password"/>
+                                <label class="form-label" for="form3Example1q">Password</label>
+                            </div>
+                            <hr/>
+                            <div class="form-floating mb-4 mt-4">
+                                <input type="text" id="form3Example1q" class="form-control form-control-lg" placeholder="Name" name="name" [(ngModel)]="doctorToAdd.firstname"/>
+                                <label class="form-label" for="form3Example1q">Name</label>
+                            </div>
+                            <div class="form-floating mb-4">
+                                <input type="text" id="form3Example1q" class="form-control form-control-lg" placeholder="Lastname" name="lastname" [(ngModel)]="doctorToAdd.lastname"/>
+                                <label class="form-label" for="form3Example1q">Lastname</label>
+                            </div>
+                            <div class="form-floating mb-4">
+                                <input type="text" id="form3Example1q" class="form-control form-control-lg" placeholder="Phone" name="phone" [(ngModel)]="doctorToAdd.phone"/>
+                                <label class="form-label" for="form3Example1q">Phone</label>
+                            </div>
+                            <div class="form-floating mb-4">
+                                <input type="text" id="form3Example1q" class="form-control form-control-lg" placeholder="Address" name="address" [(ngModel)]="doctorToAdd.address"/>
+                                <label class="form-label" for="form3Example1q">Address</label>
+                            </div>
+                            <div class="form-floating mb-4">
+                                <input type="text" id="form3Example1q" class="form-control form-control-lg" placeholder="Address" name="address" [(ngModel)]="doctorToAdd.licenseID"/>
+                                <label class="form-label" for="form3Example1q">LicenseID</label>
+                            </div>
+                            <div class="form-group mb-4">
+                                <label for="exampleSelect1" class="form-label">Select Specialization</label>
+                                <select class="form-select" id="exampleSelect1" name="spec" [(ngModel)]="doctorToAdd.specialization">
+                                    <option *ngFor="let spec of specializations" value="{{spec.specialization}}">
+                                        {{spec.specialization}}
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="form-floating mb-4">
+                                <input type="text" id="form3Example1q" class="form-control form-control-lg" placeholder="Address" name="address" [(ngModel)]="doctorToAdd.branch"/>
+                                <label class="form-label" for="form3Example1q">Branch</label>
+                            </div>
+                            <div class="custom-file form-outline mb-4">
+                                <label for="imageFile" class="form-label mt-4">Select an image</label>
+                                <input class="form-control" id="imageFile" type="file"  (change)="fileChange($event)" aria-describedby="inputGroupFileAddon01"/>
+                            </div>
+              
+                            
+                            <button type="submit" class="btn btn-success btn-lg mb-4" (click)="addDoctor()">Register</button>
+              
+                        </form>
+                    {{message}}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

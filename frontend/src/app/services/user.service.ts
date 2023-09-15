@@ -56,4 +56,8 @@ export class UserService {
   editUser(user) {
     return this.http.post(`${this.url}/users/editUser`, user).toPromise();
   }
+
+  getUserById(id) {
+    return this.http.get(`${this.url}/users/${id}`).toPromise();
+  }
 }

@@ -17,6 +17,8 @@ import { ManagerComponent } from './manager/manager.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { ProfileComponent } from './profile/profile.component';
 import { DoctorListComponent } from './doctor-list/doctor-list.component';
+import { UserComponent } from './user/user.component';
+import { AddDoctorComponent } from './add-doctor/add-doctor.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +34,8 @@ import { DoctorListComponent } from './doctor-list/doctor-list.component';
     ChangePasswordComponent,
     ProfileComponent,
     DoctorListComponent,
+    UserComponent,
+    AddDoctorComponent,
   ],
   imports: [
     BrowserModule,

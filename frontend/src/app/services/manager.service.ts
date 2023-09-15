@@ -36,4 +36,16 @@ export class ManagerService {
   deleteUser(user) {
     return this.http.post(`${this.url}/manager/deleteUser`, user).toPromise();
   }
+
+  addDoctor(doctor) {
+    return this.http.post(`${this.url}/manager/addDoctor`, doctor).toPromise();
+  }
+
+  addSpecialization(specialization) {
+    return this.http.post(`${this.url}/manager/addSpecialization`, specialization).toPromise();
+  }
+
+  getSpecializations() {
+    return this.http.get(`${this.url}/manager/getSpecializations`).toPromise();
+  }
 }

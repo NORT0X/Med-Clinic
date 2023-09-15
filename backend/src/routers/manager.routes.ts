@@ -28,4 +28,12 @@ managerRouter.route('/deleteUser').post(
     (req, res) => new ManagerController().deleteUser(req, res)
 )
 
+managerRouter.route('/addSpecialization').post(
+    (req, res) => new ManagerController().addSpecialization(req, res)
+)
+
+managerRouter.route('/getSpecializations').get(
+    (req, res) => new ManagerController().getSpecializations(req, res)
+)
+
 export default managerRouter;

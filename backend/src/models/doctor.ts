@@ -14,7 +14,7 @@ let DoctorSchema = new Schema({
     licenseID: {
         type: Number
     },
-    sepcialization: {
+    specialization: {
         type: String
     },
     branch: {

@@ -10,7 +10,6 @@ export class UserController {
     register = async (req: express.Request, res: express.Response) => {
         try {
             let user = JSON.parse(req.body.user);
-            console.log(req.body)
 
             // Check if user with the same username or email exists
             let check = await User.findOne({ username: user.username }).exec();
@@ -39,6 +38,7 @@ export class UserController {
             if(user.userType === 'Patient') {
                 user = new Patient(user)
             } else if (user.userType === 'Doctor') {
+                console.log(user)
                 user = new Doctor(user)
             } else {
                 return res.status(400).json({ error: 'Invalid type!' });
@@ -120,6 +120,20 @@ export class UserController {
             return res.status(200).json({ message: 'User edited' });
         } catch(error) {
             return res.status(500).json({ error: 'Failed to edit user' });
+        }
+    }
+
+    getUserById = async (req: express.Request, res: express.Response) => {
+        try {
+            let id = req.params.id;
+            let user = await User.findOne({"_id": new ObjectId(id)}).exec();
+            if(!user)
+            {
+                return res.status(400).json({ message: 'User not found' });
+            }
+            return res.status(200).json({ user: user });
+        } catch(error) {
+            return res.status(500).json({ error: 'Failed to get user' });
         }
     }
 

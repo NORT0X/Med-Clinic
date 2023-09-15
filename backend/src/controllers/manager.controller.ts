@@ -3,6 +3,7 @@ var ObjectId = require('mongodb').ObjectID;
 
 const { User, Doctor, Patient } = require('../models/user')
 const { BannedUser } = require('../models/bannedUser')
+const { Specialization } = require('../models/specialization')
 
 export class ManagerController {
     // Get all patients and doctors
@@ -91,6 +92,29 @@ export class ManagerController {
             res.status(200).json({ message: 'User deleted' });
         } catch(error) {
             return res.status(500).json({ error: 'Failed to delete user' });
+        }
+    }
+
+    addSpecialization = async (req: express.Request, res: express.Response) => {
+        try {
+            let specialization = req.body;
+            console.log(specialization)
+
+            const spec = new Specialization(specialization);
+
+            spec.save();
+            res.status(200).json({ message: 'Specialization added' });
+        } catch(error) {
+            return res.status(500).json({ error: 'Failed to add specialization' });
+        }
+    }
+
+    getSpecializations = async (req: express.Request, res: express.Response) => {
+        try {
+            const specializations = await Specialization.find().exec();
+            return res.status(200).json({"specializations": specializations});
+        } catch(error) {
+            return res.status(500).json({ error: 'Failed to get specializations' });
         }
     }
 }

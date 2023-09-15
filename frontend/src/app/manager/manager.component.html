@@ -141,7 +141,7 @@
             <td class="text-center align-middle">
                 <div class="d-flex justify-content-center align-items-center" *ngIf="user.specialization">
                     <div *ngIf="!user.isEditEnabled">
-                        {{user.licenseID}}
+                        {{user.specialization}}
                     </div>
                     <div *ngIf="user.isEditEnabled">
                         <input type="number" class="form-control" [(ngModel)]="user.specialization"
@@ -183,4 +183,28 @@
         </tr>
         </tbody>
     </table>
+</div>
+<div>
+    <section class="main-wrapper">
+        <div class="h-100 container py-5">
+            <div class=" row d-flex justify-content-center align-items-center">
+                <div class="mb-5 col-lg-8 col-xl-6">
+                    <div class="card rounded-3 px-5">
+                        <h3 class=" mb-4 mt-4 pb-2 pb-md-0 mb-md-1 px-md-2 text-center">Add Specialization</h3>
+                        <form class="px-md-1">
+                          <div class="form-floating mb-4 mt-5">
+                            <input type="text" id="form3Example1q" class="form-control" placeholder="Specialization name" name="Spec" [(ngModel)]="specializationToAdd"/>
+                            <label class="form-label" for="form3Example1q">Specialization</label>
+                          </div>
+                          <button type="submit" class="btn btn-success btn-lg mb-4" (click)="addSpecialization()">Add Specialization</button>
+                        </form>
+                        {{specMessage}}
+                    </div>
+                </div>
+            </div>
+        </div>
+      </section>
+</div>
+<div class="pt-4">
+    <app-add-doctor></app-add-doctor>
 </div>

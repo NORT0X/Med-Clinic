@@ -22,6 +22,9 @@ export class ManagerComponent implements OnInit {
 
   isEditEnabled = false;
 
+  specializationToAdd: string;
+  specMessage: string;
+
   async getAllUsers() {
     try {
       const result = await this.managerService.getAllVerifiedUsers();
@@ -88,6 +91,19 @@ export class ManagerComponent implements OnInit {
       const result = await this.managerService.deleteUser(user);
       console.log(result);
       window.location.reload();
+    } catch (error: any) {
+      console.log(error.error.error);
+    }
+  }
+
+  async addSpecialization() {
+    if (!this.specializationToAdd) {
+      this.specMessage = "You must enter a specialization"
+      return;
+    }
+    try {
+      const result = await this.managerService.addSpecialization({ specialization: this.specializationToAdd });
+      console.log(result);
     } catch (error: any) {
       console.log(error.error.error);
     }
