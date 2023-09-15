@@ -24,27 +24,28 @@ export class AddDoctorComponent implements OnInit {
   }
 
   async addDoctor() {
-    this.checkImageDimensions(this.image)
-    if(!this.isImageCorrect) {
-      return;
-    }
-
-    this.doctorToAdd.userType = "Doctor";
-    this.doctorToAdd.verified = true;
-
-    let formData = new FormData();
-    formData.append('image', this.image);
-    formData.append('imageName', this.image.name);
-    formData.append('user', JSON.stringify(this.doctorToAdd));
-
-    if(this.check_required()) {
-      this.message='You must fill all input fields!'
-      return;
-    }
-
     try {
+      if(this.check_required()) {
+        this.message='You must fill all input fields!'
+        return;
+      }
+
+      const isDimensionsCorrect = await this.checkImageDimensions(this.image);
+      if (!isDimensionsCorrect) {
+        return;
+      }
+  
+      this.doctorToAdd.userType = "Doctor";
+      this.doctorToAdd.verified = true;
+
+      let formData = new FormData();
+      formData.append('image', this.image);
+      formData.append('imageName', this.image.name);
+      formData.append('user', JSON.stringify(this.doctorToAdd));
+
+      console.log('test')
       const result = await this.userService.register(formData)
-      console.log(result.error)
+      console.log(result)
       window.location.reload();
     } catch(error: any) {
       this.message = error.error.error
@@ -58,30 +59,33 @@ export class AddDoctorComponent implements OnInit {
     }
   }
 
-  checkImageDimensions(image: File) {
-    const reader = new FileReader();
-
-    reader.onload = (e: any) => {
-      const img = new Image();
-      img.src = e.target.result;
-      
-      img.onload = () => {
-        const width = img.width;
-        const height = img.height;
-        console.log(`Image dimensions: ${width} x ${height}`);
-
-        if(width < 100 || width > 300 || height < 100 || height > 300) {
-          this.message = "Image dimensions must be min(100x100), max(300x300)"
-          this.image = null;
-          this.isImageCorrect = false;
-        }
-        else {
-          this.isImageCorrect = true;
-        }
+  checkImageDimensions(image: File): Promise<boolean> {
+    return new Promise((resolve) => {
+      const reader = new FileReader();
+  
+      reader.onload = (e: any) => {
+        const img = new Image();
+        img.src = e.target.result;
+  
+        img.onload = () => {
+          const width = img.width;
+          const height = img.height;
+          console.log(`Image dimensions: ${width} x ${height}`);
+  
+          if (width < 100 || width > 300 || height < 100 || height > 300) {
+            this.message = "Image dimensions must be min(100x100), max(300x300)";
+            this.image = null;
+            this.isImageCorrect = false;
+            resolve(false);
+          } else {
+            this.isImageCorrect = true;
+            resolve(true);
+          }
+        };
       };
-    };
-
-    reader.readAsDataURL(image);
+  
+      reader.readAsDataURL(image);
+    });
   }
 
   check_required(): boolean {

@@ -36,40 +36,41 @@ export class RegisterComponent implements OnInit {
   message: string;
 
   async register() {
-    this.checkImageDimensions(this.image)
-    if(!this.isImageCorrect) {
+    try{
+      const isDimensionsCorrect = await this.checkImageDimensions(this.image);
+    if (!isDimensionsCorrect) {
+      this.message = "Image dimensions must be min(100x100), max(300x300)";
       return;
     }
 
-    let user = new User();
-    user.username = this.username;
-    user.password = this.password;
-    user.phone = this.phone;
-    user.email = this.email;
-    user.branch = this.branch;
-    user.specialization = this.specialization;
-    user.licenseID = this.licenseID;
-    user.address = this.address;
-    user.firstname = this.firstname;
-    user.lastname = this.lastname;
-    user.userType = this.userType;
-    user.verified = false;
+      let user = new User();
+      user.username = this.username;
+      user.password = this.password;
+      user.phone = this.phone;
+      user.email = this.email;
+      user.branch = this.branch;
+      user.specialization = this.specialization;
+      user.licenseID = this.licenseID;
+      user.address = this.address;
+      user.firstname = this.firstname;
+      user.lastname = this.lastname;
+      user.userType = this.userType;
+      user.verified = false;
 
-    let formData = new FormData();
-    formData.append('image', this.image);
-    formData.append('imageName', this.image.name);
-    formData.append('user', JSON.stringify(user));
+      let formData = new FormData();
+      formData.append('image', this.image);
+      formData.append('imageName', this.image.name);
+      formData.append('user', JSON.stringify(user));
 
-    if(this.check_required()) {
-      this.message='You must fill all input fields!'
-      return;
-    }
+      if(this.check_required()) {
+        this.message='You must fill all input fields!'
+        return;
+      }
 
-    if(user.password !== this.password_confirm) {
-      this.message = "Passwords do not match"
-      return;
-    }
-    try {
+      if(user.password !== this.password_confirm) {
+        this.message = "Passwords do not match"
+        return;
+      }
       const result = await this.userService.register(formData)
       console.log(result.error)
       this.router.navigate(['login'])
@@ -96,29 +97,32 @@ export class RegisterComponent implements OnInit {
     }
   }
 
-  checkImageDimensions(image: File) {
-    const reader = new FileReader();
-
-    reader.onload = (e: any) => {
-      const img = new Image();
-      img.src = e.target.result;
-      
-      img.onload = () => {
-        const width = img.width;
-        const height = img.height;
-        console.log(`Image dimensions: ${width} x ${height}`);
-
-        if(width < 100 || width > 300 || height < 100 || height > 300) {
-          this.message = "Image dimensions must be min(100x100), max(300x300)"
-          this.image = null;
-          this.isImageCorrect = false;
-        }
-        else {
-          this.isImageCorrect = true;
-        }
+  checkImageDimensions(image: File): Promise<boolean> {
+    return new Promise((resolve) => {
+      const reader = new FileReader();
+  
+      reader.onload = (e: any) => {
+        const img = new Image();
+        img.src = e.target.result;
+  
+        img.onload = () => {
+          const width = img.width;
+          const height = img.height;
+          console.log(`Image dimensions: ${width} x ${height}`);
+  
+          if (width < 100 || width > 300 || height < 100 || height > 300) {
+            this.message = "Image dimensions must be min(100x100), max(300x300)";
+            this.image = null;
+            this.isImageCorrect = false;
+            resolve(false);
+          } else {
+            this.isImageCorrect = true;
+            resolve(true);
+          }
+        };
       };
-    };
-
-    reader.readAsDataURL(image);
+  
+      reader.readAsDataURL(image);
+    });
   }
 }
