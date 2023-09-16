@@ -48,4 +48,12 @@ export class ManagerService {
   getSpecializations() {
     return this.http.get(`${this.url}/manager/getSpecializations`).toPromise();
   }
+
+  transformToPassword(value: string): string {
+    let result = '';
+    for (let i = 0; i < value.length; i++) {
+      result += '*';
+    }
+    return result;
+  }
 }

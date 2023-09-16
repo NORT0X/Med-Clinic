@@ -33,7 +33,7 @@
     bottom: 0;
     left: 0;
     width: 100%;
-    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.75));
+    background: linear-gradient(to bottom, #223136, #223136, #223136, #223136, #223136, #323f45, #444e54, #555e64, #7e8389, #a8aaaf, #d3d4d6, #ffffff);
     color: #fff;
     padding: 10px;
 }

@@ -1,0 +1,26 @@
+<p>doctor-extra works!</p>
+<div *ngIf="currentUser.userType==='Doctor'">
+    <section class="main-wrapper">
+        <div class="h-100 container py-5">
+            <div class=" row d-flex justify-content-center align-items-center">
+                <div class="mb-5 col-lg-8 col-xl-6">
+                    <div class="card rounded-3 px-5">
+                        <h3 class=" mb-4 mt-4 pb-2 pb-md-0 mb-md-1 px-md-2 text-center">Add Appointment type</h3>
+                        <form class="px-md-1">
+                          <div class="form-floating mb-4 mt-5">
+                            <input type="text" id="form3Example1q" class="form-control" placeholder="Appointment Type" name="appointmentTypeToAddType" [(ngModel)]="appointmentTypeToAdd.type"/>
+                            <label class="form-label" for="form3Example1q">Appointment to add</label>
+                          </div>
+                          <div class="form-floating mb-4 mt-5">
+                            <input type="number" id="form3Example1q" class="form-control" placeholder="Appointment Type" name="appointmentTypeToAddPrice" [(ngModel)]="appointmentTypeToAdd.price"/>
+                            <label class="form-label" for="form3Example1q">Price</label>
+                          </div>
+                          <button type="submit" class="btn btn-success btn-lg mb-4" (click)="addAppointmentType()">Add Appointment Type</button>
+                        </form>
+                        {{appointmentMessage}}
+                    </div>
+                </div>
+            </div>
+        </div>
+      </section>
+</div>

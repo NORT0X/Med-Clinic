@@ -11,15 +11,21 @@ export class UserComponent implements OnInit {
 
   constructor(private userService: UserService) { }
 
-  ngOnInit(): void {
-    this.user_id = window.location.href.split('/')[4];
-    console.log(this.user_id)
-    this.getUserInfo();
+  async ngOnInit() {
+    try {
+      this.user_id = window.location.href.split('/')[4];
+      console.log(this.user_id)
+      this.currentUser = this.userService.getUserFromStorage();
+      await this.getUserInfo();
+    } catch(error) {
+      console.log(error.error.error)
+    }
   }
 
 
   user_id;
   user: User;
+  currentUser: User;
 
   async getUserInfo() {
     try {

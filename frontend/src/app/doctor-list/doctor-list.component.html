@@ -1,1 +1,55 @@
-<p>doctor-list works!</p>
+<h1 class="mt-4 mb-4 pb-2 pb-md-0 mb-md-1 px-md-2 text-center">All Doctors</h1>
+<div class="p-5">
+    <form class="d-flex" (ngSubmit)="searchDoctor()">
+        <input class="form-control me-sm-2" type="search" name="searchFirst" placeholder="Firstname" [(ngModel)]="searchFirstname">
+        <input class="form-control me-sm-2" type="search" name="lastSearch" placeholder="Lastname" [(ngModel)]="searchLastname">
+        <input class="form-control me-sm-2" type="search" name="specSearch" placeholder="Specialization" [(ngModel)]="searchSpecialization">
+        <input class="form-control me-sm-2" type="search" placeholder="Branch" *ngIf="currentUser">
+        <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+    </form>
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th scope="col">Type</th>
+            <th scope="col">Picture</th>
+            <th scope="col" role="button" (click)="sortDoctorsByFirstname()">Firstname</th>
+            <th scope="col" role="button" (click)="sortDoctorsByLastname()">Lastname</th>
+            <th scope="col" role="button" (click)="sortDoctorsBySpecialization()">Specialization</th>
+            <th scope="col" role="button" (click)="sortDoctorsByBranch()" *ngIf="currentUser">Branch</th>
+            <th scole="col" role="button">Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="table-secondary" *ngFor="let user of doctors">
+            <th class="text-center align-middle" scope="row">{{user.userType}}</th>
+            <td>
+                <img src="{{user.picturePath}}" alt="user picture" width="100" height="100">
+            </td>
+            <td class="text-center align-middle">
+                <div class="d-flex justify-content-center align-items-center">
+                    {{user.firstname}}
+                </div>
+            </td>
+            <td class="text-center align-middle">
+                <div class="d-flex justify-content-center align-items-center">
+                    {{user.lastname}}
+                </div>
+            </td>
+            <td class="text-center align-middle">
+                <div class="d-flex justify-content-center align-items-center">
+                    {{user.specialization}}
+                </div>
+            </td>
+            <td class="text-center align-middle" *ngIf="currentUser">
+                <div class="d-flex justify-content-center align-items-center">
+                    {{user.branch}}
+                </div>
+            </td>
+            <td class="text-center align-middle">
+                <div class="mt-2">
+                    <button type="button" class="btn btn-danger" (click)="seeProfile(user)">Profile</button>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>

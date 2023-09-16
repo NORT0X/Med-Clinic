@@ -3,19 +3,19 @@
     <table class="table table-hover">
         <thead>
         <tr>
-            <th scope="col">Type</th>
-            <th scope="col">Picture</th>
-            <th scope="col">Username</th>
-            <th scope="col">Password</th>
-            <th scope="col">Phone</th>
-            <th scope="col">Email</th>
-            <th scope="col">Firstname</th>
-            <th scope="col">Lastname</th>
-            <th scope="col">Address</th>
-            <th scope="col">LicenseID</th>
-            <th scope="col">Specialization</th>
-            <th scope="col">Branch</th>
-            <th scope="col">Action</th>
+            <th class="text-center align-middle" scope="col">Type</th>
+            <th class="text-center align-middle" scope="col">Picture</th>
+            <th class="text-center align-middle" scope="col">Username</th>
+            <th class="text-center align-middle" scope="col">Password</th>
+            <th class="text-center align-middle" scope="col">Phone</th>
+            <th class="text-center align-middle" scope="col">Email</th>
+            <th class="text-center align-middle" scope="col">Firstname</th>
+            <th class="text-center align-middle" scope="col">Lastname</th>
+            <th class="text-center align-middle" scope="col">Address</th>
+            <th class="text-center align-middle" scope="col">LicenseID</th>
+            <th class="text-center align-middle" scope="col">Specialization</th>
+            <th class="text-center align-middle" scope="col">Branch</th>
+            <th class="text-center align-middle" scope="col">Action</th>
         </tr>
         </thead>
         <tbody>
@@ -25,7 +25,7 @@
                 <img src="{{user.picturePath}}" alt="user picture" width="100" height="100">
             </td>
             <td>{{user.username}}</td>
-            <td>{{user.password}}</td>
+            <td>{{transformToPassword(user.password)}}</td>
             <td>{{user.phone}}</td>
             <td>{{user.email}}</td>
             <td>{{user.firstname}}</td>
@@ -47,19 +47,19 @@
     <table class="table table-hover">
         <thead>
         <tr>
-            <th scope="col">Type</th>
-            <th scope="col">Picture</th>
-            <th scope="col">Username</th>
-            <th scope="col">Password</th>
-            <th scope="col">Phone</th>
-            <th scope="col">Email</th>
-            <th scope="col">Firstname</th>
-            <th scope="col">Lastname</th>
-            <th scope="col">Address</th>
-            <th scope="col">LicenseID</th>
-            <th scope="col">Specialization</th>
-            <th scope="col">Branch</th>
-            <th scope="col">Actions</th>
+            <th class="text-center align-middle" scope="col">Type</th>
+            <th class="text-center align-middle" scope="col">Picture</th>
+            <th class="text-center align-middle" scope="col">Username</th>
+            <th class="text-center align-middle" scope="col">Password</th>
+            <th class="text-center align-middle" scope="col">Phone</th>
+            <th class="text-center align-middle" scope="col">Email</th>
+            <th class="text-center align-middle" scope="col">Firstname</th>
+            <th class="text-center align-middle" scope="col">Lastname</th>
+            <th class="text-center align-middle" scope="col">Address</th>
+            <th class="text-center align-middle" scope="col">LicenseID</th>
+            <th class="text-center align-middle" scope="col">Specialization</th>
+            <th class="text-center align-middle" scope="col">Branch</th>
+            <th class="text-center align-middle" scope="col">Actions</th>
         </tr>
         </thead>
         <tbody>
@@ -78,7 +78,7 @@
             </td>
             <td class="text-center align-middle">
                 <div class="d-flex justify-content-center align-items-center" *ngIf="!user.isEditEnabled">
-                    {{user.password}}
+                    {{transformToPassword(user.password)}}
                 </div>
                 <div class="d-flex justify-content-center align-items-center" *ngIf="user.isEditEnabled">
                     <input type="text" class="form-control" [(ngModel)]="user.password" *ngIf="user.isEditEnabled">
@@ -207,4 +207,63 @@
 </div>
 <div class="pt-4">
     <app-add-doctor></app-add-doctor>
+</div>
+<div class="p-5">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th class="text-center align-middle" scope="col">Type</th>
+                <th class="text-center align-middle" scope="col">Specialization</th>
+                <th class="text-center align-middle" scope="col">Price</th>
+                <th class="text-center align-middle" scope="col">Valid</th>
+                <th class="text-center align-middle" scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        <tr class="table-secondary" *ngFor="let appType of appointmentTypes">
+            <th class="text-center align-middle" scope="row">{{appType.type}}</th>
+            <td class="text-center align-middle">
+                <div class="d-flex justify-content-center align-items-center" *ngIf="!appType.isEditEnabled">
+                    {{appType.specialization}}
+                </div>
+                <div class="d-flex justify-content-center align-items-center" *ngIf="appType.isEditEnabled">
+                    <select class="form-select" id="exampleSelect1" name="spec" [(ngModel)]="appType.specialization">
+                        <option *ngFor="let spec of allSpecializations" value="{{spec.specialization}}">
+                            {{spec.specialization}}
+                        </option>
+                    </select>
+                </div>
+            </td>
+            <td class="text-center align-middle">
+                <div class="d-flex justify-content-center align-items-center" *ngIf="!appType.isEditEnabled">
+                    {{appType.price}}
+                </div>
+                <div class="d-flex justify-content-center align-items-center" *ngIf="appType.isEditEnabled">
+                    <input type="number" class="form-control" [(ngModel)]="appType.price" *ngIf="appType.isEditEnabled">
+                </div>
+            </td>
+            <td class="text-center align-middle">
+                <div *ngIf="appType.valid">
+                    Yes
+                </div>
+                <button type="button" class="btn btn-primary" (click)="validateAppType(appType)" *ngIf="!appType.valid">Validate</button>
+            </td>
+            
+            <td class="text-center align-middle">
+                <div *ngIf="!appType.isEditEnabled">
+                    <button type="button" class="btn btn-danger" (click)="enableEditAppType(appType)">Edit</button>
+                </div>
+                <div *ngIf="appType.isEditEnabled">
+                    <button type="button" class="btn btn-danger" (click)="disableEditAppType(appType)">Cancel</button>
+                </div>
+                <div class="mt-2" *ngIf="appType.isEditEnabled">
+                    <button type="button" class="btn btn-danger" (click)="editAppType(appType)">Apply</button>
+                </div>
+                <div class="mt-2">
+                    <button type="button" class="btn btn-primary" (click)="deleteAppType(appType)">Delete</button>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
 </div>

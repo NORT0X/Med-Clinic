@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ManagerService } from '../services/manager.service';
 import * as _ from 'lodash'
+import { DoctorService } from '../services/doctor.service';
+import { AppType } from '../model/appType';
 
 @Component({
   selector: 'app-manager',
@@ -9,10 +11,16 @@ import * as _ from 'lodash'
 })
 export class ManagerComponent implements OnInit {
 
-  constructor(private managerService: ManagerService) { }
+  constructor(private managerService: ManagerService, private doctorService: DoctorService) { }
 
-  ngOnInit(): void {
-    this.getAllUsers();
+  async ngOnInit() {
+    try {
+      await this.getAllUsers();
+      await this.getAllAppointmentTypes();
+      await this.getAllSpecializations();
+    } catch (error: any) {
+      console.log(error.error.error);
+    }
   }
 
   verifiedUsers = [];
@@ -20,10 +28,33 @@ export class ManagerComponent implements OnInit {
 
   editingUser;
 
-  isEditEnabled = false;
+  // isEditEnabled = false;
 
   specializationToAdd: string;
+  allSpecializations = [];
   specMessage: string;
+
+  appointmentTypes = [];
+
+  async getAllAppointmentTypes() {
+    try {
+      const result = await this.doctorService.getAllAppointmentTypes();
+      this.appointmentTypes = result['appointmentTypes'];
+      console.log(this.appointmentTypes);
+    } catch (error: any) {
+      console.log(error.error.error);
+    }
+  }
+
+  async getAllSpecializations() {
+    try {
+      const result = await this.managerService.getSpecializations();
+      this.allSpecializations = result['specializations'];
+      console.log(this.allSpecializations);
+    } catch (error: any) {
+      console.log(error.error.error);
+    }
+  }
 
   async getAllUsers() {
     try {
@@ -104,6 +135,48 @@ export class ManagerComponent implements OnInit {
     try {
       const result = await this.managerService.addSpecialization({ specialization: this.specializationToAdd });
       console.log(result);
+    } catch (error: any) {
+      console.log(error.error.error);
+    }
+  }
+
+  transformToPassword(value: string): string {
+    return this.managerService.transformToPassword(value);
+  }
+
+  enableEditAppType(appType: AppType) {
+    appType.isEditEnabled = true;
+  }
+
+  disableEditAppType(appType: AppType) {
+    appType.isEditEnabled = false;
+  }
+
+  async editAppType(appType) {
+    try {
+      const result = await this.doctorService.editAppointmentType(appType);
+      console.log(result);
+      window.location.reload();
+    } catch (error: any) {
+      console.log(error.error.error);
+    }
+  }
+
+  async deleteAppType(appType) {
+    try {
+      const result = await this.doctorService.deleteAppointmentType(appType);
+      console.log(result);
+      window.location.reload();
+    } catch (error: any) {
+      console.log(error.error.error);
+    }
+  }
+
+  async validateAppType(appType) {
+    try {
+      const result = await this.doctorService.validateAppointmentType(appType);
+      console.log(result);
+      window.location.reload();
     } catch (error: any) {
       console.log(error.error.error);
     }

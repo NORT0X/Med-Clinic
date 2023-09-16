@@ -60,6 +60,14 @@ userRouter.route('/editUser').post(
     (req, res) => new UserController().editUser(req, res)
 )
 
+userRouter.route('/getAllDoctors').get(
+    (req, res) => new UserController().getAllDoctors(req, res)
+)
+
+userRouter.route('/getAllPatients').get(
+    (req, res) => new UserController().getAllPatients(req, res)
+)
+
 userRouter.route('/:id').get(
     (req, res) => new UserController().getUserById(req, res)
 )

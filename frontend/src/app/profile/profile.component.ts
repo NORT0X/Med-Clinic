@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../services/user.service';
 import { User } from '../model/user';
+import { DoctorService } from '../services/doctor.service';
 
 @Component({
   selector: 'app-profile',
@@ -9,15 +10,25 @@ import { User } from '../model/user';
 })
 export class ProfileComponent implements OnInit {
 
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService, private doctorService: DoctorService) { }
 
-  ngOnInit(): void {
-    this.user = this.userService.getUserFromStorage();
+  async ngOnInit() {
+    try {
+      this.user = this.userService.getUserFromStorage();
+      if (this.user.userType === 'Doctor') {
+        await this.getAppointmentTypes();
+      }
+    } catch (error: any) {
+      console.log(error.error.error); 
+    }
   }
 
   user: User;
   image;
   isEditEnabled = false;
+
+  // Special for doctor
+  appointmentTypes = [];
 
   fileChange(event) {
     this.image = event.target.files[0];
@@ -61,6 +72,16 @@ export class ProfileComponent implements OnInit {
       sessionStorage.setItem('token', result['token']);
 
       window.location.reload();
+    } catch (error: any) {
+      console.log(error.error.error);
+    }
+  }
+
+  async getAppointmentTypes() {
+    try {
+      let result = await this.doctorService.getAppointmentTypesForSpecialization(this.user.specialization);
+      console.log(result);
+      this.appointmentTypes = result['appointmentTypes'];
     } catch (error: any) {
       console.log(error.error.error);
     }

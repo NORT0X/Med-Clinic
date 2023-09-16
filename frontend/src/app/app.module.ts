@@ -19,6 +19,9 @@ import { ProfileComponent } from './profile/profile.component';
 import { DoctorListComponent } from './doctor-list/doctor-list.component';
 import { UserComponent } from './user/user.component';
 import { AddDoctorComponent } from './add-doctor/add-doctor.component';
+import { MakeAppointmentComponent } from './make-appointment/make-appointment.component';
+import { DoctorExtraComponent } from './doctor-extra/doctor-extra.component';
+import { AppointmentListComponent } from './appointment-list/appointment-list.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +39,9 @@ import { AddDoctorComponent } from './add-doctor/add-doctor.component';
     DoctorListComponent,
     UserComponent,
     AddDoctorComponent,
+    MakeAppointmentComponent,
+    DoctorExtraComponent,
+    AppointmentListComponent,
   ],
   imports: [
     BrowserModule,

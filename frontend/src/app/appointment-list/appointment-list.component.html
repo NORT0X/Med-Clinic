@@ -1,0 +1,115 @@
+<section *ngIf="currentUser.userType==='Patient'">
+    <div class="p-5">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th class="text-center align-middle" scope="col">Type</th>
+                    <th class="text-center align-middle" scope="col">Date and Time</th>
+                    <th class="text-center align-middle" scope="col">Branch</th>
+                    <th class="text-center align-middle" scope="col">Doctor</th>
+                    <th class="text-center align-middle" scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            <tr class="table-secondary" *ngFor="let app of appointments">
+                <th class="text-center align-middle" scope="row">{{getAppointmentType(app.type)}}</th>
+                <td class="text-center align-middle">
+                    <div class="d-flex justify-content-center align-items-center">
+                        {{app.date}}
+                    </div>
+                </td>
+                <td class="text-center align-middle">
+                    <div class="d-flex justify-content-center align-items-center">
+                        {{getBranch(app.doctor)}}
+                    </div>
+                </td>
+                <td class="text-center align-middle">
+                    <div class="d-flex justify-content-center align-items-center">
+                        {{getDoctorName(app.doctor)}}
+                    </div>
+                </td>
+                
+                <td class="text-center align-middle">
+                    <div>
+                        <button type="button" class="btn btn-danger" (click)="deleteAppointment(app)">Cancel</button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+<section *ngIf="currentUser.userType==='Doctor'">
+    <div class="p-5">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th class="text-center align-middle" scope="col">Type</th>
+                    <th class="text-center align-middle" scope="col">Patient</th>
+                    <th class="text-center align-middle" scope="col">Date and Time</th>
+                    <th class="text-center align-middle" scope="col">Branch</th>
+                    <th class="text-center align-middle" scope="col">Doctor</th>
+                    <th class="text-center align-middle" scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            <tr class="table-secondary" *ngFor="let app of appointments">
+                <th class="text-center align-middle" scope="row">{{getAppointmentType(app.type)}}</th>
+                <td class="text-center align-middle">
+                    <div class="d-flex justify-content-center align-items-center">
+                        {{getPatientName(app.patient)}}
+                    </div>
+                </td>
+                <td class="text-center align-middle">
+                    <div class="d-flex justify-content-center align-items-center">
+                        {{app.date}}
+                    </div>
+                </td>
+                <td class="text-center align-middle">
+                    <div class="d-flex justify-content-center align-items-center">
+                        {{getBranch(app.doctor)}}
+                    </div>
+                </td>
+                <td class="text-center align-middle">
+                    <div class="d-flex justify-content-center align-items-center">
+                        {{getDoctorName(app.doctor)}}
+                    </div>
+                </td>
+                <div
+                    class="modal"
+                    tabindex="-1"
+                    role="dialog"
+                    [ngStyle]="{'display':displayStyle}">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Cancel Appointment</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-floating mb-4 mt-5">
+                                <input type="textarea" id="form3Example1q" class="form-control" placeholder="Description" name="description" [(ngModel)]="app.cancelDescription"/>
+                                <label class="form-label" for="form3Example1q">Description</label>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" 
+                                    (click)="disableAppEdit(app)">
+                            Close
+                            </button>
+                            <button type="button" class="btn btn-danger" (click)="cancelAppointment(app)" *ngIf="app.isEditEnabled">Apply</button>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+                <td class="text-center align-middle">
+                    <div>
+                        <button type="button" class="btn btn-danger" (click)="enableAppEdit(app)" *ngIf="!app.isEditEnabled">Cancel</button>
+                        <button type="button" class="btn btn-danger" (click)="disableAppEdit(app)" *ngIf="app.isEditEnabled">X</button>
+                        <button type="button" class="btn btn-danger" (click)="cancelAppointment(app)" *ngIf="app.isEditEnabled">Apply</button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</section>

@@ -17,7 +17,10 @@
             <a class="nav-link" routerLink="login">Login</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">About</a>
+            <a class="nav-link" routerLink="doctors">Doctors</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="appointments">Appointments</a>
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Profile</a>
@@ -26,7 +29,7 @@
               <a class="dropdown-item" routerLink="password-change">Change Password</a>
               <a class="dropdown-item" href="#">Something else here</a>
               <div class="dropdown-divider"></div>
-              <a class="dropdown-item">Logout</a>
+              <a class="dropdown-item" role="button" (click)="logout()">Logout</a>
             </div>
           </li>
         </ul>

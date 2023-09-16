@@ -60,4 +60,12 @@ export class UserService {
   getUserById(id) {
     return this.http.get(`${this.url}/users/${id}`).toPromise();
   }
+
+  getAllDoctors() {
+    return this.http.get(`${this.url}/users/getAllDoctors`).toPromise();
+  }
+
+  getAllPatients() {
+    return this.http.get(`${this.url}/users/getAllPatients`).toPromise();
+  }
 }

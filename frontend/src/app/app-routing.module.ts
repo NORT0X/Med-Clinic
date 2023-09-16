@@ -9,6 +9,9 @@ import { UnregisteredComponent } from './unregistered/unregistered.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { ProfileComponent } from './profile/profile.component';
 import { UserComponent } from './user/user.component';
+import { DoctorListComponent } from './doctor-list/doctor-list.component';
+import { DoctorExtraComponent } from './doctor-extra/doctor-extra.component';
+import { AppointmentListComponent } from './appointment-list/appointment-list.component';
 
 const routes: Routes = [
   {path: "", component: HomeComponent},
@@ -19,7 +22,10 @@ const routes: Routes = [
   {path: "unregistered", component: UnregisteredComponent},
   {path: "password-change", component: ChangePasswordComponent},
   {path: "profile", component: ProfileComponent},
-  {path: "user/:id", component: UserComponent}
+  {path: "user/:id", component: UserComponent},
+  {path: "doctors", component: DoctorListComponent},
+  {path: "extra", component: DoctorExtraComponent},
+  {path: "appointments", component: AppointmentListComponent}
 ];
 
 @NgModule({

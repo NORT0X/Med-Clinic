@@ -137,4 +137,23 @@ export class UserController {
         }
     }
 
+    getAllDoctors = async (req: express.Request, res: express.Response) => {
+        try {
+            console.log('test')
+            const doctors = await User.find({userType: 'Doctor', verified: true}).exec();
+            return res.status(200).json({"doctors": doctors});
+        } catch(error) {
+            return res.status(500).json({ error: 'Failed to get doctors' });
+        }
+    }
+
+    getAllPatients = async (req: express.Request, res: express.Response) => {
+        try {
+            const patients = await User.find({userType: 'Patient', verified: true}).exec();
+            return res.status(200).json({"patients": patients});
+        } catch(error) {
+            return res.status(500).json({ error: 'Failed to get patients' });
+        }
+    }
+
 }

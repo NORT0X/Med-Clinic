@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 import userRouter from './routers/user.routes';
 import managerRouter from './routers/manager.routes';
+import appointmentRouter from './routers/appointment.routes';
 
 const app = express();
 app.use(cors())
@@ -17,6 +18,7 @@ connection.once('open', () => {
 const router = express.Router();
 router.use('/users', userRouter);
 router.use('/manager', managerRouter);
+router.use('/appointment', appointmentRouter);
 
 app.use('/', router);
 app.use('/uploads/images', express.static('uploads/images'));
