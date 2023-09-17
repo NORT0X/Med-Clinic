@@ -22,7 +22,8 @@ import { AddDoctorComponent } from './add-doctor/add-doctor.component';
 import { MakeAppointmentComponent } from './make-appointment/make-appointment.component';
 import { DoctorExtraComponent } from './doctor-extra/doctor-extra.component';
 import { AppointmentListComponent } from './appointment-list/appointment-list.component';
-
+import { ReviewComponent } from './review/review.component';
+import { NotificationListComponent } from './notification-list/notification-list.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -42,6 +43,8 @@ import { AppointmentListComponent } from './appointment-list/appointment-list.co
     MakeAppointmentComponent,
     DoctorExtraComponent,
     AppointmentListComponent,
+    ReviewComponent,
+    NotificationListComponent
   ],
   imports: [
     BrowserModule,

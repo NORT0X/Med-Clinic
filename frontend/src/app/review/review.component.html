@@ -1,0 +1,71 @@
+<section *ngIf="isVisible">
+    <div class="container py-5">
+          <div class="card mb-4">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-sm-3">
+                  <p class="mb-0">Date</p>
+                </div>
+                <div class="col-sm-9">
+                  <p class="text-muted mb-0">{{getDateTimeString(appointment.date)}}</p>
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-sm-3">
+                  <p class="mb-0">Doctor's name</p>
+                </div>
+                <div class="col-sm-9">
+                  <p class="text-muted mb-0">{{getDoctorName()}}</p>
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-sm-3">
+                  <p class="mb-0">Doctor's specialization</p>
+                </div>
+                <div class="col-sm-9">
+                  <p class="text-muted mb-0">{{doctor.specialization}}</p>
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-sm-3">
+                  <p class="mb-0">Reason for appointment</p>
+                </div>
+                <div class="col-sm-9">
+                  <p class="text-muted mb-0">{{appointment.report.reason}}</p>
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-sm-3">
+                  <p class="mb-0">Diagnosis</p>
+                </div>
+                <div class="col-sm-9">
+                  <p class="text-muted mb-0">{{appointment.report.diagnosis}}</p>
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-sm-3">
+                  <p class="mb-0">Therapy</p>
+                </div>
+                <div class="col-sm-9">
+                  <p class="text-muted mb-0">{{appointment.report.therapy}}</p>
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-sm-3">
+                  <p class="mb-0">Next appointment</p>
+                </div>
+                <div class="col-sm-9">
+                  <p class="text-muted mb-0" *ngIf="isThereNextAppointment()">{{appointment.report.nextAppointment}}</p>
+                  <p class="text-muted mb-0" *ngIf="!isThereNextAppointment()">None</p>
+                </div>
+              </div>
+            </div>
+          </div>
+    </div>
+  </section>

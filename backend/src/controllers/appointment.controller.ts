@@ -6,6 +6,7 @@ const { BannedUser } = require('../models/bannedUser')
 const { Specialization } = require('../models/specialization')
 const { AppointmentType } = require('../models/appointmentTypes')
 const { Appointment } = require('../models/appointment')
+const { NonWorkingDay } = require('../models/nonWorkingDay')
 
 export class AppointmentController {
     getAllAppointmentTypesForSpecialization = async (req: express.Request, res: express.Response) => {
@@ -100,17 +101,15 @@ export class AppointmentController {
     makeAppointment = async (req: express.Request, res: express.Response) => {
         try {
             console.log('make appointment')
-            console.log(req.body)
+
             // Check if date and time are valid
             // Check if doctor is free
             let appointmentsOfDoctor = await Appointment.find({doctor: req.body.doctor}).exec();
-            console.log(appointmentsOfDoctor)
             let overlapping = false;
             appointmentsOfDoctor.forEach(appointment => {
-                console.log(typeof req.body.date)
                 const end1 = new Date(appointment.date.getTime() + appointment.duration * 60000);
                 const end2 = new Date(new Date(req.body.date).getTime() + req.body.duration * 60000);
-                console.log('test')
+
                 // check if appointment overlaps with req.body.date
                 if (appointment.date.getTime() <= end2.getTime() && new Date(req.body.date).getTime() <= end1.getTime()) {
                     overlapping = true;
@@ -122,7 +121,6 @@ export class AppointmentController {
             }
             // Check if patient is free
             let appointmentsOfPatient = await Appointment.find({patient: req.body.patient}).exec();
-            console.log(appointmentsOfPatient)
 
             appointmentsOfPatient.forEach(appointment => {
                 const end1 = new Date(appointment.date.getTime() + appointment.duration * 60000);
@@ -137,12 +135,46 @@ export class AppointmentController {
             if(overlapping) {
                 return res.status(400).json({ error: 'Patient is not free' });
             }
+
+            // Check if doctor is working
+            let doctor = await Doctor.findOne({"_id": new ObjectId(req.body.doctor)}).exec();
+
+            let nonWorkingDays = await NonWorkingDay.find({user: doctor._id}).exec();
+            console.log(nonWorkingDays)
+            nonWorkingDays.forEach(nonWorkingDay => {
+                console.log(typeof nonWorkingDay.startDate)
+                const startDate = new Date(nonWorkingDay.startDate);
+                const endDate = new Date(nonWorkingDay.endDate);
+                // have to increment endDate by 1 day because it is not included in the range
+                endDate.setDate(endDate.getDate() + 1);
+
+                const date = new Date(req.body.date);
+                if (startDate.getTime() <= date.getTime() && date.getTime() <= endDate.getTime()) {
+                    overlapping = true;
+                }
+            })
+
+            if(overlapping) {
+                return res.status(400).json({ error: 'Doctor is not working' });
+            }
+
             const appointment = new Appointment(req.body);
             const result = await appointment.save();
             return res.status(200).json({"message": "Appointment created"});
 
         } catch(error) {
             return res.status(500).json({ error: 'Failed to make appointment' });
+        }
+    }
+
+    getAppointmentById = async (req: express.Request, res: express.Response) => {
+        try {
+            let id = req.params.id;
+            console.log(id)
+            const appointment = await Appointment.findOne({"_id": new ObjectId(id)}).exec();
+            return res.status(200).json({"appointment": appointment});
+        } catch(error) {
+            return res.status(500).json({ error: 'Failed to get appointment' });
         }
     }
 
@@ -182,6 +214,42 @@ export class AppointmentController {
             return res.status(200).json({ message: 'Appointment deleted' });
         } catch(error) {
             return res.status(500).json({ error: 'Failed to delete appointment' });
+        }
+    }
+
+    editAppointment = async (req: express.Request, res: express.Response) => {
+        try {
+            let appointment = req.body;
+            console.log(appointment)
+
+            let result = Appointment.findOneAndUpdate({"_id": new ObjectId(appointment._id)}, appointment).exec();
+
+            if(!result)
+            {
+                return res.status(400).json({ message: 'Appointment not found' });
+            }
+            return res.status(200).json({ message: 'Appointment edited' });
+        } catch(error) {
+            return res.status(500).json({ error: 'Failed to edit appointment' });
+        }
+    }
+
+    getPatientAppointmentsForSpecialization = async (req: express.Request, res: express.Response) => {
+        try {
+            let patientId = req.params.patientId;
+            let specializationId = req.params.specializationId;
+            console.log(patientId)
+            console.log(specializationId)
+            const appointments = await Appointment.find({patient: patientId}).exec();
+            let appointmentsForSpecialization = [];
+            appointments.forEach(appointment => {
+                if (appointment.specialization == specializationId) {
+                    appointmentsForSpecialization.push(appointment);
+                }
+            })
+            return res.status(200).json({"appointments": appointmentsForSpecialization});
+        } catch(error) {
+            return res.status(500).json({ error: 'Failed to get appointments' });
         }
     }
 }

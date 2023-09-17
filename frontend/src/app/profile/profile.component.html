@@ -58,7 +58,13 @@
                         <div class="col-md-12"><label class="labels">Address</label><input type="text" class="form-control" name="add" [(ngModel)]="user.address"></div>
                         <div class="col-md-12"><label class="labels">Phone</label><input type="text" class="form-control" name="Phone" [(ngModel)]="user.phone"></div>
                         <div class="col-md-12"><label class="mt-2 labels">Email</label><p>{{user.email}}</p></div>
-                        <div class="col-md-12"><label class="labels">Specialization</label><input type="text" class="form-control" name="specialization" [(ngModel)]="user.specialization"></div>
+                        <div class="col-md-12"><label class="labels">Specialization</label>
+                                <select class="form-select" id="exampleSelect1" name="spec" [(ngModel)]="user.specialization">
+                                    <option *ngFor="let spec of allSpecializations" value="{{spec.specialization}}">
+                                        {{spec.specialization}}
+                                    </option>
+                                </select>
+                        </div>
                         <div class="col-md-12"><label class="mt-2 labels">Branch</label><p>{{user.branch}}</p></div>
                     </div>
                     <div class="mt-5 text-center"><button class="btn btn-primary profile-button" type="button" (click)="editUser()">Save Profile</button></div>

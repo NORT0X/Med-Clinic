@@ -43,8 +43,20 @@ appointmentRouter.route('/getAppointmentsForDoctor/:id').get(
     (req, res) => new AppointmentController().getAllAppointmentsForDoctor(req, res)
 )
 
+appointmentRouter.route('/:id').get(
+    (req, res) => new AppointmentController().getAppointmentById(req, res)
+)
+
 appointmentRouter.route('/deleteAppointment').post(
     (req, res) => new AppointmentController().deleteAppointment(req, res)
+)
+
+appointmentRouter.route('/editAppointment').post(
+    (req, res) => new AppointmentController().editAppointment(req, res)
+)
+
+appointmentRouter.route('/getPatientAppointmentsForSpecialization/:patientId/:specializationId').get(
+    (req, res) => new AppointmentController().getPatientAppointmentsForSpecialization(req, res)
 )
 
 

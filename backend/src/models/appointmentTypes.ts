@@ -17,6 +17,10 @@ let AppointmentTypeSchema = new Schema({
     price: {
         type: Number
     },
+    duration: {
+        type: Number,
+        default: 30
+    },
     valid: {
         type: Boolean,
         default: false

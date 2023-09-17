@@ -1,3 +1,5 @@
+import { Report } from './report';
+
 export class Appointment {
     _id: string;
     type: string;       // ObjectId
@@ -8,4 +10,5 @@ export class Appointment {
     valid: boolean;
     isEditEnabled: boolean = false;
     cancelDescription: string;
+    report: Report = new Report();
 }

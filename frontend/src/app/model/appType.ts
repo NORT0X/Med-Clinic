@@ -4,5 +4,6 @@ export class AppType {
     specialization: string;
     price: number;
     valid: boolean;
+    duration: number;
     isEditEnabled: boolean = false;
 }

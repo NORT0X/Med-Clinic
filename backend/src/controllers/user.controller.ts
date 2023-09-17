@@ -5,6 +5,7 @@ var ObjectId = require('mongodb').ObjectID;
 
 const { User, Doctor, Patient } = require('../models/user')
 const { BannedUser } = require('../models/bannedUser')
+const { NonWorkingDay } = require('../models/nonWorkingDay')
 
 export class UserController {
     register = async (req: express.Request, res: express.Response) => {
@@ -153,6 +154,17 @@ export class UserController {
             return res.status(200).json({"patients": patients});
         } catch(error) {
             return res.status(500).json({ error: 'Failed to get patients' });
+        }
+    }
+
+    setNonWorkingDays = async (req: express.Request, res: express.Response) => {
+        try {
+            let nonWorkingDays = req.body;
+            console.log(nonWorkingDays)
+            const result = await NonWorkingDay.create(nonWorkingDays);
+            return res.status(200).json({ message: 'Non working days set' });
+        } catch (error) {
+            return res.status(500).json({ error: 'Failed to set non working days' });
         }
     }
 

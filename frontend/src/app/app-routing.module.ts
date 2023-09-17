@@ -12,6 +12,8 @@ import { UserComponent } from './user/user.component';
 import { DoctorListComponent } from './doctor-list/doctor-list.component';
 import { DoctorExtraComponent } from './doctor-extra/doctor-extra.component';
 import { AppointmentListComponent } from './appointment-list/appointment-list.component';
+import { ReviewComponent } from './review/review.component';
+import { NotificationListComponent } from './notification-list/notification-list.component';
 
 const routes: Routes = [
   {path: "", component: HomeComponent},
@@ -25,7 +27,9 @@ const routes: Routes = [
   {path: "user/:id", component: UserComponent},
   {path: "doctors", component: DoctorListComponent},
   {path: "extra", component: DoctorExtraComponent},
-  {path: "appointments", component: AppointmentListComponent}
+  {path: "appointments", component: AppointmentListComponent},
+  {path: "review/:id", component: ReviewComponent},
+  {path: "notifications", component: NotificationListComponent}
 ];
 
 @NgModule({

@@ -23,6 +23,24 @@ let AppointmentSchema = new Schema({
     duration: {
         type: Number
     },
+    report: {
+        date : {
+            type: Date
+        },
+        reason: {
+            type: String
+        },
+        diagnosis: {
+            type: String
+        },
+        therapy: {
+            type: String
+        },
+        nextAppointment: {
+            type: Date
+        },
+        default: {}
+    },
     valid: {
         type: Boolean,
         default: true

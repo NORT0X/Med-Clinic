@@ -72,4 +72,8 @@ userRouter.route('/:id').get(
     (req, res) => new UserController().getUserById(req, res)
 )
 
+userRouter.route('/setNonWorkingDays').post(
+    (req, res) => new UserController().setNonWorkingDays(req, res)
+)
+
 export default userRouter;

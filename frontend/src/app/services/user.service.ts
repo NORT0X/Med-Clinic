@@ -68,4 +68,22 @@ export class UserService {
   getAllPatients() {
     return this.http.get(`${this.url}/users/getAllPatients`).toPromise();
   }
+
+  getAppointmentById(id) {
+    return this.http.get(`${this.url}/appointment/${id}`).toPromise();
+  }
+
+  getDateTimeString(date) {
+    let day = date.getDate();
+    let month = date.getMonth() + 1;
+    let year = date.getFullYear();
+    let hour = date.getHours();
+    let minutes = date.getMinutes();
+    return day + "." + month + "." + year + ". " + hour + ":" + minutes;
+  }
+
+  setNonWorkingDays(notWorkingDays) {
+    return this.http.post(`${this.url}/users/setNonWorkingDays`, notWorkingDays).toPromise();
+  }
+
 }

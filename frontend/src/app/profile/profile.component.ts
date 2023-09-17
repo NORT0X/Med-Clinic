@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from '../services/user.service';
 import { User } from '../model/user';
 import { DoctorService } from '../services/doctor.service';
+import { ManagerService } from '../services/manager.service';
 
 @Component({
   selector: 'app-profile',
@@ -10,11 +11,15 @@ import { DoctorService } from '../services/doctor.service';
 })
 export class ProfileComponent implements OnInit {
 
-  constructor(private userService: UserService, private doctorService: DoctorService) { }
+  constructor(private userService: UserService,
+    private doctorService: DoctorService,
+    private managerService: ManagerService
+  ) { }
 
   async ngOnInit() {
     try {
       this.user = this.userService.getUserFromStorage();
+      this.getSpecializations();
       if (this.user.userType === 'Doctor') {
         await this.getAppointmentTypes();
       }
@@ -29,6 +34,18 @@ export class ProfileComponent implements OnInit {
 
   // Special for doctor
   appointmentTypes = [];
+
+  allSpecializations;
+
+  async getSpecializations() {
+    try {
+      const result = await this.managerService.getSpecializations();
+      this.allSpecializations = result['specializations'];
+      console.log(this.allSpecializations);
+    } catch (error: any) {
+      console.log(error.error.error);
+    }
+  }
 
   fileChange(event) {
     this.image = event.target.files[0];

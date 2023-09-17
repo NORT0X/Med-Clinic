@@ -21,4 +21,8 @@ export class PatientService {
   deleteAppointment(appointment) {
     return this.http.post(`${this.url}/appointment/deleteAppointment`, appointment).toPromise();
   }
+
+  getPatientAppointmentsForSpecialization(patientId, specializationId) {
+    return this.http.get(`${this.url}/appointment/getPatientAppointmentsForSpecialization/${patientId}/${specializationId}`).toPromise();
+  }
 }

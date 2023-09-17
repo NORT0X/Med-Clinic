@@ -23,6 +23,7 @@ export class MakeAppointmentComponent implements OnInit {
       this.currentUser = this.userService.getUserFromStorage();
       let res = await this.doctorService.getAppointmentTypesForSpecialization(this.doctorForAppointment.specialization);
       this.appointmentTypes = res['appointmentTypes'];
+      this.appointmentTypes = this.appointmentTypes.filter(x => x.valid == true);
       console.log(this.appointmentTypes);
       console.log(this.doctorForAppointment);
       console.log(this.currentUser)
@@ -42,6 +43,7 @@ export class MakeAppointmentComponent implements OnInit {
   async makeAppointment() {
     this.appointment.patient = this.currentUser._id;
     this.appointment.doctor = this.doctorForAppointment._id;
+    this.appointment.duration = this.appointmentTypes.find(x => x._id == this.appointment.type).duration;
     if (this.appointment.date == undefined == undefined || this.appointment.type == undefined) {
       this.appMessage = "Please fill all fields";
       return;

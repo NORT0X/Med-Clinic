@@ -98,4 +98,8 @@ export class DoctorService {
   getDoctorAppointments(id) {
     return this.http.get(`${this.userService.url}/appointment/getAppointmentsForDoctor/${id}`).toPromise();
   }
+
+  writeAppointmentReport(appointment) {
+    return this.http.post(`${this.userService.url}/appointment/editAppointment`, appointment).toPromise();
+  }
 }

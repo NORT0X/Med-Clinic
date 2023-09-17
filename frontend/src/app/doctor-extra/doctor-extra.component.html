@@ -15,9 +15,44 @@
                             <input type="number" id="form3Example1q" class="form-control" placeholder="Appointment Type" name="appointmentTypeToAddPrice" [(ngModel)]="appointmentTypeToAdd.price"/>
                             <label class="form-label" for="form3Example1q">Price</label>
                           </div>
+                          <div class="form-floating mb-4 mt-5">
+                            <div class="form-check mb-5">
+                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" name="durVis" [(ngModel)]="isDurationVisible">
+                                <label class="form-check-label" for="flexCheckDefault">
+                                    Change duration (default: 30min)
+                                </label>
+                            </div>
+                          </div>
+                          <div class="form-floating mb-4 mt-5" *ngIf="isDurationVisible">
+                            <input type="number" id="form3Example1q" class="form-control" placeholder="Appointment Duration" name="appointmentTypeToAddDuration" [(ngModel)]="appointmentTypeToAdd.duration"/>
+                            <label class="form-label" for="form3Example1q">Duration</label>
+                          </div>
                           <button type="submit" class="btn btn-success btn-lg mb-4" (click)="addAppointmentType()">Add Appointment Type</button>
                         </form>
                         {{appointmentMessage}}
+                    </div>
+                </div>
+            </div>
+        </div>
+      </section>
+      <section class="main-wrapper">
+        <div class="h-100 container py-5">
+            <div class=" row d-flex justify-content-center align-items-center">
+                <div class="mb-5 col-lg-8 col-xl-6">
+                    <div class="card rounded-3 px-5">
+                        <h3 class=" mb-4 mt-4 pb-2 pb-md-0 mb-md-1 px-md-2 text-center">Set days off</h3>
+                        <form class="px-md-1">
+                          <div class="form-floating mb-4 mt-5">
+                            <input type="date" id="form3Example1q" class="form-control" placeholder="Start Date" name="startDate" [(ngModel)]="startDate"/>
+                            <label class="form-label" for="form3Example1q">Start Date</label>
+                          </div>
+                          <div class="form-floating mb-4 mt-5">
+                            <input type="date" id="form3Example1q" class="form-control" placeholder="End date" name="endDate" [(ngModel)]="endDate"/>
+                            <label class="form-label" for="form3Example1q">End Date</label>
+                          </div>
+                          <button type="submit" class="btn btn-success btn-lg mb-4" (click)="setNonWorkingDays()">Add Appointment Type</button>
+                        </form>
+                        {{notWorkingDaysMessage}}
                     </div>
                 </div>
             </div>
