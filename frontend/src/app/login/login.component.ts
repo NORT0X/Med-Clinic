@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../services/user.service';
 import { Router } from '@angular/router';
+import { NavbarComponent } from '../navbar/navbar.component';
 
 @Component({
   selector: 'app-login',
@@ -29,6 +30,7 @@ export class LoginComponent implements OnInit {
       sessionStorage.setItem('user', JSON.stringify(result['user']));
       sessionStorage.setItem('token', result['token']);
       this.router.navigate([''])
+      NavbarComponent.prototype.ngOnInit()
     } catch(error: any) {
       this.message = error.error.error
     }

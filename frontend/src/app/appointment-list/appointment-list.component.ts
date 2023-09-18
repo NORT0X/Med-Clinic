@@ -166,20 +166,26 @@ export class AppointmentListComponent implements OnInit {
     this.displayStyle2 = "none"
   }
 
-  writeReport(appointment) {
+  async writeReport(appointment) {
+    try {
+      this.report.date = new Date();
+      this.selectedAppointment.report = this.report;
+      this.displayStyle2 = "none"
+      this.doctorService.writeAppointmentReport(this.selectedAppointment);
 
-    this.report.date = new Date();
-    this.selectedAppointment.report = this.report;
-    this.displayStyle2 = "none"
-    this.doctorService.writeAppointmentReport(this.selectedAppointment);
+      let notification = new Notification();
+      notification.user = this.selectedAppointment.patient;
+      notification.date = new Date();
+      let appDate = new Date(this.selectedAppointment.date);
+      notification.description = "Your appointment with " + this.getDoctorName(this.selectedAppointment.doctor) + " on " + this.getDateAndTimeString(appDate) + " has been reviewed. You can download the report from link: http://localhost:4200/review/" + this.selectedAppointment._id;
+      this.notificationService.sendNotification(notification);
 
-    let notification = new Notification();
-    notification.user = this.selectedAppointment.patient;
-    notification.date = new Date();
-    let appDate = new Date(this.selectedAppointment.date);
-    notification.description = "Your appointment with " + this.getDoctorName(this.selectedAppointment.doctor) + " on " + this.getDateAndTimeString(appDate) + " has been reviewed. You can download the report from link: http://localhost:4200/review/" + this.selectedAppointment._id;
-    this.notificationService.sendNotification(notification);
-    window.location.reload();
+      // Send email
+      await this.doctorService.sendQrCodeToPatient(this.selectedAppointment);
+      window.location.reload();
+    } catch (error) {
+      console.log(error.error.error)
+    }
   }
 
   isReportNone(appointment) {

@@ -3,6 +3,10 @@ import { AppointmentController } from "../controllers/appointment.controller";
 
 const appointmentRouter = express.Router();
 
+appointmentRouter.route('/sendQrCodeToEmail').post(
+    (req, res) => new AppointmentController().sendQrCodeToEmail(req, res)
+)
+
 appointmentRouter.route('/getAllAppointmentTypesForSpecialization').post(
     (req, res) => new AppointmentController().getAllAppointmentTypesForSpecialization(req, res)
 )

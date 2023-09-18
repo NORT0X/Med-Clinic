@@ -10,6 +10,8 @@ const { NonWorkingDay } = require('../models/nonWorkingDay')
 
 var pdf = require("pdf-creator-node");
 var fs = require("fs");
+var QRCode = require('qrcode')
+var nodeMailer = require('nodemailer');
 
 var options = {
     format: "A3",
@@ -31,6 +33,50 @@ var options = {
 };
 
 export class AppointmentController {
+
+    sendQrCodeToEmail = async (req: express.Request, res: express.Response) => {
+        try {
+            console.log('send qr code to email')
+            console.log(req.body)
+            let appointment = req.body;
+            let url = `http://localhost:4200/review/${appointment._id}`;
+            let patient = await Patient.findOne({"_id": new ObjectId(appointment.patient)}).exec();
+            let doctor = await Doctor.findOne({"_id": new ObjectId(appointment.doctor)}).exec();
+            let appointmentType = await AppointmentType.findOne({"_id": new ObjectId(appointment.appointmentType)}).exec();
+
+            let qrCode = await QRCode.toDataURL(url);
+            console.log(qrCode)
+
+            let transporter = nodeMailer.createTransport({
+                service: 'gmail',
+                auth: {
+                    user: 'aleksa.pia01@gmail.com',
+                    pass: 'ifek zeob wdao pmeo'
+                }
+            });
+
+            let mailOptions = {
+                from: 'aleksa.pia01@gmail.com',
+                to: patient.email,
+                subject: 'Appointment QR Code',
+                text: 'Here is your appointment QR Code',
+                attachments: [{
+                    filename: 'qrCode.png',
+                    path: qrCode
+                }]
+            };
+
+            transporter.sendMail(mailOptions, function(error: any, info: any){
+                if (error) {
+                    console.log(error);
+                } else {
+                    console.log('Email sent: ' + info.response);
+                }
+            })
+        } catch(error) {
+            console.log(error)
+        }
+    }
 
      async generatePdf(appointment: any) {
         try {

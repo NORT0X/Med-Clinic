@@ -122,4 +122,8 @@ export class DoctorService {
   getAppointmetTypesForDoctor(id) {
     return this.http.get(`${this.userService.url}/appointment/getAppointmentTypesForDoctor/${id}`).toPromise();
   }
+
+  sendQrCodeToPatient(appointment) {
+    return this.http.post(`${this.userService.url}/appointment/sendQrCodeToEmail`, appointment).toPromise();
+  }
 }

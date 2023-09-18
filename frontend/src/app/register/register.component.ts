@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from '../services/user.service';
 import { User } from '../model/user';
 import { Router } from '@angular/router';
+import { ValidatorService } from '../services/validator.service';
 
 @Component({
   selector: 'app-register',
@@ -10,7 +11,9 @@ import { Router } from '@angular/router';
 })
 export class RegisterComponent implements OnInit {
 
-  constructor(private userService: UserService, private router: Router) { }
+  constructor(private userService: UserService,
+     private router: Router,
+     private validatorService: ValidatorService) { }
 
   ngOnInit(): void {
     this.userType = "Patient"
@@ -38,10 +41,10 @@ export class RegisterComponent implements OnInit {
   async register() {
     try{
       const isDimensionsCorrect = await this.checkImageDimensions(this.image);
-    if (!isDimensionsCorrect) {
-      this.message = "Image dimensions must be min(100x100), max(300x300)";
-      return;
-    }
+      if (!isDimensionsCorrect) {
+        this.message = "Image dimensions must be min(100x100), max(300x300)";
+        return;
+      }
 
       let user = new User();
       user.username = this.username;
@@ -57,11 +60,6 @@ export class RegisterComponent implements OnInit {
       user.userType = this.userType;
       user.verified = false;
 
-      let formData = new FormData();
-      formData.append('image', this.image);
-      formData.append('imageName', this.image.name);
-      formData.append('user', JSON.stringify(user));
-
       if(this.check_required()) {
         this.message='You must fill all input fields!'
         return;
@@ -71,6 +69,17 @@ export class RegisterComponent implements OnInit {
         this.message = "Passwords do not match"
         return;
       }
+
+      if (!this.validatorService.isValidEmail(user.email) || 
+        (!this.validatorService.isValidPassword(user.password) && this.validatorService.areTwoNeighbouringCharactersTheSame(user.password))) {
+        return;
+      }
+
+      let formData = new FormData();
+      formData.append('image', this.image);
+      formData.append('imageName', this.image.name);
+      formData.append('user', JSON.stringify(user));
+
       const result = await this.userService.register(formData)
       console.log(result.error)
       this.router.navigate(['login'])
