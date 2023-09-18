@@ -8,7 +8,77 @@ const { AppointmentType } = require('../models/appointmentTypes')
 const { Appointment } = require('../models/appointment')
 const { NonWorkingDay } = require('../models/nonWorkingDay')
 
+var pdf = require("pdf-creator-node");
+var fs = require("fs");
+
+var options = {
+    format: "A3",
+    orientation: "portrait",
+    border: "10mm",
+    header: {
+        height: "45mm",
+        contents: '<div style="text-align: center;">Review</div>'
+    },
+    footer: {
+        height: "28mm",
+        contents: {
+            first: 'Cover page',
+            2: 'Second page', // Any page number is working. 1-based index
+            default: '<span style="color: #444;">{{page}}</span>/<span>{{pages}}</span>', // fallback value
+            last: 'Last Page'
+        }
+    }
+};
+
 export class AppointmentController {
+
+     async generatePdf(appointment: any) {
+        try {
+            console.log('generate pdf')
+            console.log(appointment)
+            let patient = await Patient.findOne({"_id": new ObjectId(appointment.patient)}).exec();
+            let doctor = await Doctor.findOne({"_id": new ObjectId(appointment.doctor)}).exec();
+            console.log('doctor')
+            console.log(doctor)
+            let appointmentType = await AppointmentType.findOne({"_id": new ObjectId(appointment.appointmentType)}).exec();
+
+            let html = fs.readFileSync("src/controllers/review.html", "utf8");
+            let nextApp;
+            if (appointment.nextAppointment) {
+                nextApp = new Date(appointment.nextAppointment).toDateString();
+            } else {
+                nextApp = 'None';
+            }
+
+            let review = {
+                date: new Date(appointment.date).toDateString(),
+                doctor: doctor.firstname + ' ' + doctor.lastname,
+                doctorSpec: doctor.specialization,
+                reason: appointment.report.reason,
+                diagnosis: appointment.report.diagnosis,
+                therapy: appointment.report.therapy,
+                nextAppointment: nextApp,
+            }
+            
+            let document = {
+                html: html,
+                data: {
+                    review: review
+                },
+                path: `./uploads/pdf/${appointment._id}.pdf`
+            };
+            pdf.create(document, options)
+                .then((res: any) => {
+                    console.log(res);
+                })
+                .catch((error: any) => {
+                    console.error(error);
+                });
+        } catch(error) {
+            console.log(error)
+        }
+    }
+
     getAllAppointmentTypesForSpecialization = async (req: express.Request, res: express.Response) => {
         try {
             console.log('get all appointment types for specialization')
@@ -223,6 +293,7 @@ export class AppointmentController {
             console.log(appointment)
 
             let result = Appointment.findOneAndUpdate({"_id": new ObjectId(appointment._id)}, appointment).exec();
+            this.generatePdf(appointment);
 
             if(!result)
             {

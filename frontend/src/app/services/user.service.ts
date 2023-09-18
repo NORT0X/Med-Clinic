@@ -86,4 +86,14 @@ export class UserService {
     return this.http.post(`${this.url}/users/setNonWorkingDays`, notWorkingDays).toPromise();
   }
 
+  downloadReportForAppointment(appointment) {
+    this.http
+    .get(`${this.url}/download/pdf/${appointment._id}`, { responseType: "blob" }) //set response Type properly (it is not part of headers)
+    .toPromise()
+    .then(blob => {
+        saveAs(blob, "dump.gz"); 
+    })
+    .catch(err => console.error("download error = ", err))
+  }
+
 }

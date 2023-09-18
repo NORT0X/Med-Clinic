@@ -5,6 +5,7 @@ import userRouter from './routers/user.routes';
 import managerRouter from './routers/manager.routes';
 import appointmentRouter from './routers/appointment.routes';
 import notificationRouter from './routers/notification.routes';
+import downloadRouter from './routers/download.routes';
 
 const app = express();
 app.use(cors())
@@ -21,6 +22,7 @@ router.use('/users', userRouter);
 router.use('/manager', managerRouter);
 router.use('/appointment', appointmentRouter);
 router.use('/notification', notificationRouter);
+router.use('/download', downloadRouter)
 
 app.use('/', router);
 app.use('/uploads/images', express.static('uploads/images'));

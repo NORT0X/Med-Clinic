@@ -54,4 +54,12 @@ export class ReviewComponent implements OnInit {
     console.log(typeof date)
     return this.userService.getDateTimeString(new Date(date));
   }
+
+  downloadReport() {
+    this.userService.downloadReportForAppointment(this.appointment);
+  }
+
+  generateDownloadLink() {
+    return "http://localhost:4000/uploads/pdf/" + this.appointment._id;
+  }
 }
