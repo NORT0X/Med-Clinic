@@ -175,8 +175,9 @@ export class AppointmentListComponent implements OnInit {
 
     let notification = new Notification();
     notification.user = this.selectedAppointment.patient;
-    notification.description = "Your appointment with " + this.getDoctorName(this.selectedAppointment.doctor) + " on " + this.getDateAndTimeString(notification.date) + " has been reviewed. You can download the report from link: http://localhost:4200/review/" + this.selectedAppointment._id;
     notification.date = new Date();
+    let appDate = new Date(this.selectedAppointment.date);
+    notification.description = "Your appointment with " + this.getDoctorName(this.selectedAppointment.doctor) + " on " + this.getDateAndTimeString(appDate) + " has been reviewed. You can download the report from link: http://localhost:4200/review/" + this.selectedAppointment._id;
     this.notificationService.sendNotification(notification);
     window.location.reload();
   }

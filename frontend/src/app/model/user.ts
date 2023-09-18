@@ -13,5 +13,6 @@ export class User {
     userType: string;
     picturePath: string;
     verified: boolean;
+    appointmentTypes: string[];
     isEditEnabled: boolean = false;
 }

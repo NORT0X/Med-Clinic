@@ -23,6 +23,7 @@ export class MakeAppointmentComponent implements OnInit {
       this.currentUser = this.userService.getUserFromStorage();
       let res = await this.doctorService.getAppointmentTypesForSpecialization(this.doctorForAppointment.specialization);
       this.appointmentTypes = res['appointmentTypes'];
+      this.appointmentTypes = this.appointmentTypes.filter(appType => this.doctorForAppointment.appointmentTypes.includes(appType._id));
       this.appointmentTypes = this.appointmentTypes.filter(x => x.valid == true);
       console.log(this.appointmentTypes);
       console.log(this.doctorForAppointment);

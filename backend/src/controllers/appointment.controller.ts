@@ -168,6 +168,45 @@ export class AppointmentController {
         }
     }
 
+    addAppointmentTypeToDoctor = async (req: express.Request, res: express.Response) => {
+        try {
+            let doctor = req.body.doctor;
+            console.log('add appointment type to doctor')
+            let appointmentType = req.body.appointmentType;
+            console.log(doctor)
+            console.log(appointmentType)
+
+            let result = await Doctor.findOneAndUpdate({"_id": new ObjectId(doctor)}, {$push: {appointmentTypes: appointmentType}}).exec();
+
+            if(!result)
+            {
+                return res.status(400).json({ message: 'Doctor not found' });
+            }
+            return res.status(200).json({ message: 'Appointment type added to doctor' });
+        } catch(error) {
+            return res.status(500).json({ error: 'Failed to add appointment type to doctor' });
+        }
+    }
+
+    removeAppointmentTypeFromDoctor = async (req: express.Request, res: express.Response) => {
+        try {
+            let doctor = req.body.doctor;
+            let appointmentType = req.body.appointmentType;
+            console.log(doctor)
+            console.log(appointmentType)
+
+            let result = await Doctor.findOneAndUpdate({"_id": new ObjectId(doctor)}, {$pull: {appointmentTypes: appointmentType}}).exec();
+
+            if(!result)
+            {
+                return res.status(400).json({ message: 'Doctor not found' });
+            }
+            return res.status(200).json({ message: 'Appointment type deleted from doctor' });
+        } catch(error) {
+            return res.status(500).json({ error: 'Failed to delete appointment type from doctor' });
+        }
+    }
+
     makeAppointment = async (req: express.Request, res: express.Response) => {
         try {
             console.log('make appointment')

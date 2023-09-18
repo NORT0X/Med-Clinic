@@ -95,11 +95,31 @@ export class DoctorService {
     return this.http.post(`${this.userService.url}/appointment/deleteAppointmentType`, appointment).toPromise();
   }
 
+  addAppointmentTypeToDoctor(doctor, app) {
+    let appointmentType = {
+      doctor: doctor,
+      appointmentType: app
+    }
+    return this.http.post(`${this.userService.url}/appointment/addAppointmentTypeToDoctor`, appointmentType).toPromise();
+  }
+
+  removeAppointmentTypeFromDoctor(doctor, app) {
+    let appointmentType = {
+      doctor: doctor,
+      appointmentType: app
+    }
+    return this.http.post(`${this.userService.url}/appointment/removeAppointmentTypeFromDoctor`, appointmentType).toPromise();
+  }
+
   getDoctorAppointments(id) {
     return this.http.get(`${this.userService.url}/appointment/getAppointmentsForDoctor/${id}`).toPromise();
   }
 
   writeAppointmentReport(appointment) {
     return this.http.post(`${this.userService.url}/appointment/editAppointment`, appointment).toPromise();
+  }
+
+  getAppointmetTypesForDoctor(id) {
+    return this.http.get(`${this.userService.url}/appointment/getAppointmentTypesForDoctor/${id}`).toPromise();
   }
 }

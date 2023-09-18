@@ -31,6 +31,14 @@ appointmentRouter.route('/deleteAppointmentType').post(
     (req, res) => new AppointmentController().deleteAppointmentType(req, res)
 )
 
+appointmentRouter.route('/addAppointmentTypeToDoctor').post(
+    (req, res) => new AppointmentController().addAppointmentTypeToDoctor(req, res)
+)
+
+appointmentRouter.route('/removeAppointmentTypeFromDoctor').post(
+    (req, res) => new AppointmentController().removeAppointmentTypeFromDoctor(req, res)
+)
+
 appointmentRouter.route('/makeAppointment').post(
     (req, res) => new AppointmentController().makeAppointment(req, res)
 )

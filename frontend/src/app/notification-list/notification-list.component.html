@@ -8,7 +8,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr role="button" class="table-secondary clickable-row" *ngFor="let notification of notifications" (click)="seeNotification(notification)">
+        <tr class="cursor-pointer table-secondary clickable-row" *ngFor="let notification of notifications" (click)="seeNotification(notification)">
             <th scope="row" [ngStyle]="{'background-color': notification.seen ? 'none' : '#a6a5a2'}">{{getDateAndTimeString(notification.date)}}</th>
             <td [ngStyle]="{'background-color': notification.seen ? 'none' : '#a6a5a2'}">{{notification.description}}</td>
         </tr>

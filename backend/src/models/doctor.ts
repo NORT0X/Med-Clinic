@@ -19,7 +19,11 @@ let DoctorSchema = new Schema({
     },
     branch: {
         type: String
-    }
+    },
+    appointmentTypes: {
+        type: Array,
+        default: []
+    },
 })
 
 export default DoctorSchema

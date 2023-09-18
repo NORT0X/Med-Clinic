@@ -14,7 +14,7 @@
             </div>
             <div class="col-md-5 border-right">
                 <div class="p-3 py-5">
-                    <div class="d-flex justify-content-between align-items-center mb-3">
+                    <div class="text-center d-flex justify-content-between align-items-center mb-3">
                         <h4 class="text-right">Profile Settings</h4>
                     </div>
                     <div class="row mt-2">
@@ -47,7 +47,7 @@
             </div>
             <div class="col-md-5 border-right">
                 <div class="p-3 py-5">
-                    <div class="d-flex justify-content-between align-items-center mb-3">
+                    <div class="text-center d-flex justify-content-between align-items-center mb-3">
                         <h4 class="text-right">Profile Settings</h4>
                     </div>
                     <div class="row mt-2">
@@ -68,6 +68,43 @@
                         <div class="col-md-12"><label class="mt-2 labels">Branch</label><p>{{user.branch}}</p></div>
                     </div>
                     <div class="mt-5 text-center"><button class="btn btn-primary profile-button" type="button" (click)="editUser()">Save Profile</button></div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 border-right">
+                <div class="text-center d-flex py-5 justify-content-between align-items-center mb-3">
+                    <h4 class="text-right">My types of appointments</h4>
+                </div>
+ 
+                <div class="custom-file form-outline mb-4">
+                    <table *ngIf="user.appointmentTypes">
+                        <tr *ngFor="let appType of doctorAppointmentTypes">
+                            <td class="p-3">{{appType.type}}</td>
+                            <td class="p-3"><button class="btn btn-danger" (click)="removeAppTypeFromDoctor(appType._id)">Delete</button></td>
+                        </tr>
+                    </table>
+                    <div class="d-flex py-5 justify-content-between align-items-center mb-3" *ngIf="!user.appointmentTypes">
+                        <h5 class="text-right">You don't serve any kind of appointment</h5>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-md-5 border-right">
+                <div class="p-3 py-5">
+                    <div class="text-center d-flex justify-content-between align-items-center mb-3">
+                        <h4 class="text-right">Add appointment type</h4>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-12"><label class="labels">Appointment Type</label>
+                                <select class="form-select" id="exampleSelect1" name="spec" [(ngModel)]="appointmentTypeToAdd">
+                                    <option *ngFor="let appType of appointmentTypesToSelect" value="{{appType._id}}">
+                                        {{appType.type}}
+                                    </option>
+                                </select>
+                        </div>
+                    </div>
+                    <div class="mt-5 text-center"><button class="btn btn-primary profile-button" type="button" (click)="addAppTypeToDoctor()">Add appointment type</button></div>
                 </div>
             </div>
         </div>

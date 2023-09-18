@@ -214,6 +214,7 @@
             <tr>
                 <th class="text-center align-middle" scope="col">Type</th>
                 <th class="text-center align-middle" scope="col">Specialization</th>
+                <th class="text-center align-middle" scope="col">Duration</th>
                 <th class="text-center align-middle" scope="col">Price</th>
                 <th class="text-center align-middle" scope="col">Valid</th>
                 <th class="text-center align-middle" scope="col">Actions</th>
@@ -232,6 +233,14 @@
                             {{spec.specialization}}
                         </option>
                     </select>
+                </div>
+            </td>
+            <td class="text-center align-middle">
+                <div class="d-flex justify-content-center align-items-center" *ngIf="!appType.isEditEnabled">
+                    {{appType.duration}}
+                </div>
+                <div class="d-flex justify-content-center align-items-center" *ngIf="appType.isEditEnabled">
+                    <input type="number" class="form-control" [(ngModel)]="appType.duration" *ngIf="appType.isEditEnabled">
                 </div>
             </td>
             <td class="text-center align-middle">

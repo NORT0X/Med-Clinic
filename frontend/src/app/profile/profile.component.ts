@@ -3,6 +3,7 @@ import { UserService } from '../services/user.service';
 import { User } from '../model/user';
 import { DoctorService } from '../services/doctor.service';
 import { ManagerService } from '../services/manager.service';
+import { AppType } from '../model/appType';
 
 @Component({
   selector: 'app-profile',
@@ -17,15 +18,11 @@ export class ProfileComponent implements OnInit {
   ) { }
 
   async ngOnInit() {
-    try {
       this.user = this.userService.getUserFromStorage();
       this.getSpecializations();
       if (this.user.userType === 'Doctor') {
-        await this.getAppointmentTypes();
+        this.getAppointmentTypes();
       }
-    } catch (error: any) {
-      console.log(error.error.error); 
-    }
   }
 
   user: User;
@@ -33,7 +30,9 @@ export class ProfileComponent implements OnInit {
   isEditEnabled = false;
 
   // Special for doctor
-  appointmentTypes = [];
+  appointmentTypesToSelect: AppType[] = [];
+  doctorAppointmentTypes: AppType[] = [];
+  appointmentTypeToAdd: string;
 
   allSpecializations;
 
@@ -98,8 +97,43 @@ export class ProfileComponent implements OnInit {
     try {
       let result = await this.doctorService.getAppointmentTypesForSpecialization(this.user.specialization);
       console.log(result);
-      this.appointmentTypes = result['appointmentTypes'];
+      result = await this.doctorService.getAppointmentTypesForSpecialization(this.user.specialization);
+      this.appointmentTypesToSelect = result['appointmentTypes'];
+      this.appointmentTypesToSelect = this.appointmentTypesToSelect.filter( appType => !this.user.appointmentTypes.includes(appType._id));
+    
+      result = await this.doctorService.getAppointmentTypesForSpecialization(this.user.specialization);
+      this.doctorAppointmentTypes = result['appointmentTypes'];
+      console.log(this.doctorAppointmentTypes);
+      console.log(this.user.appointmentTypes)
+      this.doctorAppointmentTypes = this.doctorAppointmentTypes.filter( appType => this.user.appointmentTypes.includes(appType._id));
     } catch (error: any) {
+      console.log(error);
+    }
+  }
+
+  async removeAppTypeFromDoctor(appTypeId) {
+    try {
+      let result = await this.doctorService.removeAppointmentTypeFromDoctor(this.user._id, appTypeId);
+      console.log(result);
+      result  = await this.userService.login(this.user.username, this.user.password);
+      sessionStorage.setItem('user', JSON.stringify(result['user']));
+      sessionStorage.setItem('token', result['token']);
+      window.location.reload();
+    } catch(error) {
+      console.log(error.error.error);
+    }
+  }
+
+  async addAppTypeToDoctor() {
+    try {
+      console.log(this.appointmentTypeToAdd)
+      let result = await this.doctorService.addAppointmentTypeToDoctor(this.user._id, this.appointmentTypeToAdd);
+      console.log(result);
+      result  = await this.userService.login(this.user.username, this.user.password);
+      sessionStorage.setItem('user', JSON.stringify(result['user']));
+      sessionStorage.setItem('token', result['token']);
+      window.location.reload();
+    } catch(error) {
       console.log(error.error.error);
     }
   }
