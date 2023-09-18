@@ -58,8 +58,4 @@ export class ReviewComponent implements OnInit {
   downloadReport() {
     this.userService.downloadReportForAppointment(this.appointment);
   }
-
-  generateDownloadLink() {
-    return "http://localhost:4000/uploads/pdf/" + this.appointment._id;
-  }
 }

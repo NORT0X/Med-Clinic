@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { User } from '../model/user';
 import { Observable } from 'rxjs';
+import { saveAs } from 'file-saver';
 
 @Injectable({
   providedIn: 'root'
@@ -91,7 +92,7 @@ export class UserService {
     .get(`${this.url}/download/pdf/${appointment._id}`, { responseType: "blob" }) //set response Type properly (it is not part of headers)
     .toPromise()
     .then(blob => {
-        saveAs(blob, "dump.gz"); 
+        saveAs(blob, "review.pdf"); 
     })
     .catch(err => console.error("download error = ", err))
   }

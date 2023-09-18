@@ -172,6 +172,12 @@ export class AppointmentListComponent implements OnInit {
     this.selectedAppointment.report = this.report;
     this.displayStyle2 = "none"
     this.doctorService.writeAppointmentReport(this.selectedAppointment);
+
+    let notification = new Notification();
+    notification.user = this.selectedAppointment.patient;
+    notification.description = "Your appointment with " + this.getDoctorName(this.selectedAppointment.doctor) + " on " + this.getDateAndTimeString(notification.date) + " has been reviewed. You can download the report from link: http://localhost:4200/review/" + this.selectedAppointment._id;
+    notification.date = new Date();
+    this.notificationService.sendNotification(notification);
     window.location.reload();
   }
 

@@ -66,8 +66,9 @@
                 </div>
               </div>
             </div>
-            <a [attr.href]="generateDownloadLink()">Download</a>
-            <button class="btn btn-success btn-lg mb-4" (click)="downloadReport()">Download</button>
+            <div class="text-center mb-3 mt-2">
+              <button type="button" class="btn btn-danger" (click)="downloadReport()">Download</button>
+          </div>
           </div>
     </div>
   </section>

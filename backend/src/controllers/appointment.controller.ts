@@ -230,6 +230,8 @@ export class AppointmentController {
 
             const appointment = new Appointment(req.body);
             const result = await appointment.save();
+
+
             return res.status(200).json({"message": "Appointment created"});
 
         } catch(error) {
