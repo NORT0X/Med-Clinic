@@ -10,31 +10,31 @@
           <li role="button" class="nav-item">
             <a class="nav-link active" routerLink="">Home</a>
           </li>
-          <li role="button" class="nav-item" *ngIf="!isLogged">
+          <li role="button" class="nav-item" *ngIf="!userService.isUserLogged()">
             <a class="nav-link" routerLink="register">Register</a>
           </li>
-          <li role="button" class="nav-item" *ngIf="!isLogged">
+          <li role="button" class="nav-item" *ngIf="!userService.isUserLogged()">
             <a class="nav-link" routerLink="login">Login</a>
           </li>
-          <li role="button" class="nav-item" *ngIf="isLogged && currentUser.userType!='Manager'">
+          <li role="button" class="nav-item" *ngIf="userService.isUserLogged() && !userService.isManager()">
             <a class="nav-link" routerLink="profile">Profile</a>
           </li>
-          <li role="button" class="nav-item" *ngIf="isLogged && currentUser.userType!='Manager'">
+          <li role="button" class="nav-item" *ngIf="userService.isUserLogged() && !userService.isManager()">
             <a class="nav-link" routerLink="password-change">Change password</a>
           </li>
-          <li role="button" class="nav-item" *ngIf="currentUser.userType!='Manager' && currentUser.userType=='Patient' && isLogged">
+          <li role="button" class="nav-item" *ngIf="userService.isUserLogged() && !userService.isManager() && userService.isPatient()">
             <a class="nav-link" routerLink="doctors">Doctors</a>
           </li>
           <li role="button" class="nav-item">
-            <a class="nav-link" routerLink="appointments" *ngIf="isLogged && currentUser.userType!='Manager'">Appointments</a>
+            <a class="nav-link" routerLink="appointments" *ngIf="userService.isUserLogged() && !userService.isManager()">Appointments</a>
           </li>
           <li role="button" class="nav-item">
-            <a class="nav-link" routerLink="notifications" *ngIf="isLogged && currentUser.userType!='Manager'">Notifications</a>
+            <a class="nav-link" routerLink="notifications" *ngIf="userService.isUserLogged() && !userService.isManager()">Notifications</a>
           </li>
-          <li role="button" class="nav-item" *ngIf="currentUser.userType!='Manager' && currentUser.userType=='Doctor' && isLogged">
+          <li role="button" class="nav-item" *ngIf="userService.isUserLogged() && !userService.isManager() && userService.isDoctor()">
             <a class="nav-link" routerLink="extra">Extra</a>
           </li>
-          <li role="button" class="float-right nav-item" *ngIf="isLogged">
+          <li role="button" class="float-right nav-item" *ngIf="userService.isUserLogged()">
             <button type="button" class="btn btn-secondary" (click)="logout()">Logout</button>
           </li>
         </ul>

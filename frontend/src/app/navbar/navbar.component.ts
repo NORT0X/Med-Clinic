@@ -10,7 +10,7 @@ import { User } from '../model/user';
 })
 export class NavbarComponent implements OnInit {
 
-  constructor(private userService: UserService, private router: Router) { }
+  constructor(public userService: UserService, private router: Router) { }
 
   ngOnInit(): void {
     this.currentUser = this.userService.getUserFromStorage();
@@ -26,6 +26,8 @@ export class NavbarComponent implements OnInit {
 
   logout() {
     this.userService.logout();
+    this.isLogged = false;
+    this.currentUser = null;
     this.router.navigate(['/login']);
   }
 

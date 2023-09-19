@@ -31,11 +31,15 @@ export class UserController {
             if(check) {
                 return res.status(400).json({ error: 'User with the same email is banned!'})
             }
-
-            const url = req.protocol + '://'+ req.get('host');
-            // const imagePath = path.join(__dirname, '../../uploads/images');
-            user.picturePath = url + '/uploads/images/';
-            user.picturePath += req.body.imageName;
+            if (req.body.hasImage === 'true') {
+                const url = req.protocol + '://'+ req.get('host');
+                // const imagePath = path.join(__dirname, '../../uploads/images');
+                user.picturePath = url + '/uploads/images/';
+                user.picturePath += req.body.imageName;
+            } else {
+                const url = req.protocol + '://'+ req.get('host');
+                user.picturePath = url + '/uploads/images/face.png';
+            }
             if(user.userType === 'Patient') {
                 user = new Patient(user)
             } else if (user.userType === 'Doctor') {

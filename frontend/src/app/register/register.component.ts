@@ -19,7 +19,7 @@ export class RegisterComponent implements OnInit {
     this.userType = "Patient"
   }
 
-  image;
+  image = null;
   isImageCorrect: boolean = false;
 
   userType: string = "";
@@ -40,10 +40,12 @@ export class RegisterComponent implements OnInit {
 
   async register() {
     try{
-      const isDimensionsCorrect = await this.checkImageDimensions(this.image);
-      if (!isDimensionsCorrect) {
-        this.message = "Image dimensions must be min(100x100), max(300x300)";
-        return;
+      if(this.image) {
+        const isDimensionsCorrect = await this.checkImageDimensions(this.image);
+        if (!isDimensionsCorrect) {
+          this.message = "Image dimensions must be min(100x100), max(300x300)";
+          return;
+        }
       }
 
       let user = new User();
@@ -70,14 +72,27 @@ export class RegisterComponent implements OnInit {
         return;
       }
 
-      if (!this.validatorService.isValidEmail(user.email) || 
-        (!this.validatorService.isValidPassword(user.password) && this.validatorService.areTwoNeighbouringCharactersTheSame(user.password))) {
+      if (!this.validatorService.isValidPassword(user.password)) {
+        this.message = "Invalid password"
         return;
       }
 
+      if (!this.validatorService.isValidEmail(user.email)) {
+        this.message = "Invalid email"
+        return;
+      }
+
+      let hasImage = false;
       let formData = new FormData();
-      formData.append('image', this.image);
-      formData.append('imageName', this.image.name);
+      if(this.image) {
+        hasImage = true;
+        formData.append('image', this.image);
+        formData.append('imageName', this.image.name);
+        formData.append('hasImage', hasImage.toString());
+      }
+      else {
+        formData.append('hasImage', hasImage.toString());
+      }
       formData.append('user', JSON.stringify(user));
 
       const result = await this.userService.register(formData)

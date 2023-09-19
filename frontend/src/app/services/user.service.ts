@@ -13,6 +13,54 @@ export class UserService {
 
   url = 'http://localhost:4000';
 
+  isLogged: boolean = false;
+  currentUser: User;
+
+  setUser(user) {
+    this.currentUser = user;
+  }
+  setLogged(isLogged) {
+    this.isLogged = isLogged;
+  }
+
+  isUserLogged() {
+    if(sessionStorage.getItem('user') != null) {
+      return true;
+    }
+    return false;
+  }
+
+  isManager() {
+    if(this.isUserLogged()) {
+      let user = this.getUserFromStorage();
+      if(user.userType === 'Manager') {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  isPatient() {
+    if(this.isUserLogged()) {
+      let user = this.getUserFromStorage();
+      if(user.userType === 'Patient') {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  isDoctor() {
+    if(this.isUserLogged()) {
+      let user = this.getUserFromStorage();
+      if(user.userType === 'Doctor') {
+        return true;
+      }
+    }
+    return false;
+  }
+
+
   register(formData: FormData): Promise<any> {
     return this.http.post(`${this.url}/users/register`, formData).toPromise();
   }
@@ -42,6 +90,9 @@ export class UserService {
   logout() {
     sessionStorage.removeItem('user');
     sessionStorage.removeItem('token');
+
+    this.setLogged(false);
+    this.setUser(null);
 
     // window.location.reload();
   }

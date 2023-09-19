@@ -15,8 +15,11 @@ export class ValidatorService {
 
   // Check if password has min 8 characters and max 14 characters, at least one uppercase letter, one number and one special character with regex
   isValidPassword(password: string) {
-    const regex = /^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*()_+={}\[\]:;"'<>,.?\/|\\-]).{8,14}$/;
-    return regex.test(password);
+    const regex1 = /^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*()_+={}\[\]:;"'<>,.?\/|\\-]).{8,14}$/;
+    
+    const regex2 = /(.)\1/;
+
+    return regex1.test(password) && !regex2.test(password);
   }
 
   // Check if two neighbouring characters are the same including special characters with regex

@@ -24,6 +24,7 @@ import { DoctorExtraComponent } from './doctor-extra/doctor-extra.component';
 import { AppointmentListComponent } from './appointment-list/appointment-list.component';
 import { ReviewComponent } from './review/review.component';
 import { NotificationListComponent } from './notification-list/notification-list.component';
+import { FooterComponent } from './footer/footer.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -44,7 +45,8 @@ import { NotificationListComponent } from './notification-list/notification-list
     DoctorExtraComponent,
     AppointmentListComponent,
     ReviewComponent,
-    NotificationListComponent
+    NotificationListComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,

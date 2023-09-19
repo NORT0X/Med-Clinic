@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { User } from '../model/user';
 import { ManagerService } from '../services/manager.service';
 import { UserService } from '../services/user.service';
+import { ValidatorService } from '../services/validator.service';
 
 @Component({
   selector: 'app-add-doctor',
@@ -10,11 +11,11 @@ import { UserService } from '../services/user.service';
 })
 export class AddDoctorComponent implements OnInit {
 
-  constructor(private userService: UserService, private managerService: ManagerService) { }
+  constructor(private userService: UserService, private validatorService: ValidatorService, private managerService: ManagerService) { }
 
   doctorToAdd: User = {} as User;
   message: string;
-  image;
+  image = null;
   isImageCorrect: boolean = false;
 
   specializations;
@@ -25,22 +26,45 @@ export class AddDoctorComponent implements OnInit {
 
   async addDoctor() {
     try {
+      console.log(this.image)
+      if(this.image) {
+        console.log('test?')
+        const isDimensionsCorrect = await this.checkImageDimensions(this.image);
+        if (!isDimensionsCorrect) {
+          this.message = "Image dimensions must be min(100x100), max(300x300)";
+          return;
+        }
+      }
+
       if(this.check_required()) {
         this.message='You must fill all input fields!'
         return;
       }
 
-      const isDimensionsCorrect = await this.checkImageDimensions(this.image);
-      if (!isDimensionsCorrect) {
+      if (!this.validatorService.isValidPassword(this.doctorToAdd.password)) {
+        this.message = "Invalid password"
+        return;
+      }
+
+      if (!this.validatorService.isValidEmail(this.doctorToAdd.email)) {
+        this.message = "Invalid email"
         return;
       }
   
       this.doctorToAdd.userType = "Doctor";
       this.doctorToAdd.verified = true;
 
+      let hasImage = false;
       let formData = new FormData();
-      formData.append('image', this.image);
-      formData.append('imageName', this.image.name);
+      if(this.image) {
+        hasImage = true;
+        formData.append('image', this.image);
+        formData.append('imageName', this.image.name);
+        formData.append('hasImage', hasImage.toString());
+      }
+      else {
+        formData.append('hasImage', hasImage.toString());
+      }
       formData.append('user', JSON.stringify(this.doctorToAdd));
 
       console.log('test')
@@ -48,7 +72,8 @@ export class AddDoctorComponent implements OnInit {
       console.log(result)
       window.location.reload();
     } catch(error: any) {
-      this.message = error.error.error
+      this.message = error
+      console.log(error)
     }
   }
 

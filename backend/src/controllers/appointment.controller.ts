@@ -88,7 +88,7 @@ export class AppointmentController {
             console.log(doctor)
             let appointmentType = await AppointmentType.findOne({"_id": new ObjectId(appointment.appointmentType)}).exec();
 
-            let html = fs.readFileSync("src/controllers/review.html", "utf8");
+            let html = fs.readFileSync("src/template/review.html", "utf8");
             let nextApp;
             if (appointment.nextAppointment) {
                 nextApp = new Date(appointment.nextAppointment).toDateString();

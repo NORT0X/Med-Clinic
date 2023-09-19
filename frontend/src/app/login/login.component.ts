@@ -29,8 +29,9 @@ export class LoginComponent implements OnInit {
       console.log(result['user'])
       sessionStorage.setItem('user', JSON.stringify(result['user']));
       sessionStorage.setItem('token', result['token']);
+      this.userService.setLogged(true);
+      this.userService.setUser(result['user']);
       this.router.navigate([''])
-      NavbarComponent.prototype.ngOnInit()
     } catch(error: any) {
       this.message = error.error.error
     }

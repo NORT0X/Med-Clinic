@@ -28,6 +28,8 @@ export class ProfileComponent implements OnInit {
   user: User;
   image;
   isEditEnabled = false;
+  message: string;
+  isImageCorrect: boolean = false;
 
   // Special for doctor
   appointmentTypesToSelect: AppType[] = [];
@@ -51,6 +53,17 @@ export class ProfileComponent implements OnInit {
   }
 
   async changeImage() {
+    try {
+      const isDimensionsCorrect = await this.checkImageDimensions(this.image);
+      if (!isDimensionsCorrect) {
+        this.message = "Image dimensions must be min(100x100), max(300x300)";
+        return;
+      }
+    } catch (error) {
+      this.message = "Image dimensions must be min(100x100), max(300x300)";
+      console.log(error);
+    }
+
     let formData = new FormData();
     formData.append('user', JSON.stringify(this.user));
     formData.append('image', this.image);
@@ -138,5 +151,33 @@ export class ProfileComponent implements OnInit {
     }
   }
 
+  checkImageDimensions(image: File): Promise<boolean> {
+    return new Promise((resolve) => {
+      const reader = new FileReader();
+  
+      reader.onload = (e: any) => {
+        const img = new Image();
+        img.src = e.target.result;
+  
+        img.onload = () => {
+          const width = img.width;
+          const height = img.height;
+          console.log(`Image dimensions: ${width} x ${height}`);
+  
+          if (width < 100 || width > 300 || height < 100 || height > 300) {
+            this.message = "Image dimensions must be min(100x100), max(300x300)";
+            this.image = null;
+            this.isImageCorrect = false;
+            resolve(false);
+          } else {
+            this.isImageCorrect = true;
+            resolve(true);
+          }
+        };
+      };
+  
+      reader.readAsDataURL(image);
+    });
+  }
 
 }
