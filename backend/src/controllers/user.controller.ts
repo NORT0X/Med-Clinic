@@ -71,6 +71,8 @@ export class UserController {
                 expiresIn: 604800,
             });
 
+            console.log('Token login: ' + token);
+
             return res.status(200).json(
                 {
                     user,
@@ -161,8 +163,12 @@ export class UserController {
         }
     }
 
-    setNonWorkingDays = async (req: express.Request, res: express.Response) => {
+    setNonWorkingDays = async (req, res: express.Response) => {
         try {
+            if (req.user.userType != 'Doctor') {
+                return res.status(403).json({ error: 'You must be a doctor!'})
+            }
+
             let nonWorkingDays = req.body;
             console.log(nonWorkingDays)
             const result = await NonWorkingDay.create(nonWorkingDays);

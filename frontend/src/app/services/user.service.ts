@@ -135,7 +135,14 @@ export class UserService {
   }
 
   setNonWorkingDays(notWorkingDays) {
-    return this.http.post(`${this.url}/users/setNonWorkingDays`, notWorkingDays).toPromise();
+    const token = sessionStorage.getItem('token');
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `${token}`
+    })
+
+    return this.http.post(`${this.url}/users/setNonWorkingDays`, notWorkingDays, { headers }).toPromise();
   }
 
   downloadReportForAppointment(appointment) {

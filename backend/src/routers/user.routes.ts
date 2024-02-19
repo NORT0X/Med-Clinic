@@ -2,6 +2,7 @@ import express from "express";
 import multer from "multer";
 import fs from "fs";
 import { UserController } from "../controllers/user.controller";
+import { authenticate } from "../middleware/auth";
 
 const userRouter = express.Router();
 
@@ -73,6 +74,7 @@ userRouter.route('/:id').get(
 )
 
 userRouter.route('/setNonWorkingDays').post(
+    authenticate,
     (req, res) => new UserController().setNonWorkingDays(req, res)
 )
 

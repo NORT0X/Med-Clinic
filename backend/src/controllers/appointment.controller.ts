@@ -129,7 +129,7 @@ export class AppointmentController {
         try {
             console.log('get all appointment types for specialization')
             console.log(req.body)
-            const appointmentTypes = await AppointmentType.find({specialization: req.body.specialization}).exec();
+            const appointmentTypes = await AppointmentType.find({specialization: req.body.specialization, valid: true}).exec();
             return res.status(200).json({"appointmentTypes": appointmentTypes});
         } catch(error) {
             return res.status(500).json({ error: 'Failed to get appointment types' });

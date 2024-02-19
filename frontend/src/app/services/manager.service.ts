@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -12,37 +12,78 @@ export class ManagerService {
 
   getAllVerifiedUsers() {
     console.log("getAllUsers");
-    return this.http.get(`${this.url}/manager/getAllVerifiedUsers`).toPromise();
+    let token = sessionStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': token
+    })
+    return this.http.get(`${this.url}/manager/getAllVerifiedUsers`, { headers }).toPromise();
   }
 
   getAllNotVerifiedUsers() {
     console.log("getAllUsers");
-    return this.http.get(`${this.url}/manager/getAllNotVerifiedUsers`).toPromise();
+    let token = sessionStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': token
+    })
+    return this.http.get(`${this.url}/manager/getAllNotVerifiedUsers`, {headers}).toPromise();
   }
 
   verifyUser(user) {
     console.log("verifyUser");
-    return this.http.post(`${this.url}/manager/verifyUser`, user).toPromise();
+    let token = sessionStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': token
+    })
+    return this.http.post(`${this.url}/manager/verifyUser`, user, { headers }).toPromise();
   }
 
   editUser(user) {
-    return this.http.post(`${this.url}/manager/editUser`, user).toPromise();
+    let token = sessionStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': token
+    })
+    return this.http.post(`${this.url}/manager/editUser`, user, {headers}).toPromise();
   }
 
   blockUser(user) {
-    return this.http.post(`${this.url}/manager/blockUser`, user).toPromise();
+    let token = sessionStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': token
+    })
+
+    return this.http.post(`${this.url}/manager/blockUser`, user, { headers }).toPromise();
   }
 
   deleteUser(user) {
-    return this.http.post(`${this.url}/manager/deleteUser`, user).toPromise();
+    let token = sessionStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': token
+    })
+    return this.http.post(`${this.url}/manager/deleteUser`, user, { headers }).toPromise();
   }
 
   addDoctor(doctor) {
-    return this.http.post(`${this.url}/manager/addDoctor`, doctor).toPromise();
+    let token = sessionStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': token
+    })
+    return this.http.post(`${this.url}/manager/addDoctor`, doctor, { headers }).toPromise();
   }
 
   addSpecialization(specialization) {
-    return this.http.post(`${this.url}/manager/addSpecialization`, specialization).toPromise();
+    let token = sessionStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': token
+    })
+    return this.http.post(`${this.url}/manager/addSpecialization`, specialization, { headers }).toPromise();
   }
 
   getSpecializations() {
