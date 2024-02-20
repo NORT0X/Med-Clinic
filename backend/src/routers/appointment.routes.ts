@@ -1,5 +1,6 @@
 import express from "express";
 import { AppointmentController } from "../controllers/appointment.controller";
+import { authenticate, managerAuth, doctorAuth } from "../middleware/auth";
 
 const appointmentRouter = express.Router();
 
@@ -12,14 +13,20 @@ appointmentRouter.route('/getAllAppointmentTypesForSpecialization').post(
 )
 
 appointmentRouter.route('/createAppointmentType').post(
+    authenticate,
+    doctorAuth,
     (req, res) => new AppointmentController().createAppointmentType(req, res)
 )
 
 appointmentRouter.route('/validateAppointment').post(
+    authenticate,
+    doctorAuth,
     (req, res) => new AppointmentController().validateAppointment(req, res)
 )
 
 appointmentRouter.route('/validateAppointmentType').post(
+    authenticate,
+    managerAuth,
     (req, res) => new AppointmentController().validateAppointmentType(req, res)
 )
 
@@ -28,18 +35,26 @@ appointmentRouter.route('/getAllAppointmentTypes').get(
 )
 
 appointmentRouter.route('/editAppointmentType').post(
+    authenticate,
+    managerAuth,
     (req, res) => new AppointmentController().editAppointmentType(req, res)
 )
 
 appointmentRouter.route('/deleteAppointmentType').post(
+    authenticate,
+    managerAuth,
     (req, res) => new AppointmentController().deleteAppointmentType(req, res)
 )
 
 appointmentRouter.route('/addAppointmentTypeToDoctor').post(
+    authenticate,
+    doctorAuth,
     (req, res) => new AppointmentController().addAppointmentTypeToDoctor(req, res)
 )
 
 appointmentRouter.route('/removeAppointmentTypeFromDoctor').post(
+    authenticate,
+    doctorAuth,
     (req, res) => new AppointmentController().removeAppointmentTypeFromDoctor(req, res)
 )
 

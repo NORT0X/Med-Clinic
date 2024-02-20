@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { UserService } from './user.service';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -80,19 +80,41 @@ export class DoctorService {
       type: app.type,
       price: app.price
     }
-    return this.http.post(`${this.userService.url}/appointment/createAppointmentType`, appointmentType).toPromise();
+
+    let token = sessionStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': token
+    })
+
+    return this.http.post(`${this.userService.url}/appointment/createAppointmentType`, appointmentType, { headers }).toPromise();
   }
 
   validateAppointmentType(appointment) {
-    return this.http.post(`${this.userService.url}/appointment/validateAppointmentType`, appointment).toPromise();
+    let token = sessionStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': token
+    })
+    return this.http.post(`${this.userService.url}/appointment/validateAppointmentType`, appointment, { headers }).toPromise();
   }
 
   editAppointmentType(appointment) {
-    return this.http.post(`${this.userService.url}/appointment/editAppointmentType`, appointment).toPromise();
+    let token = sessionStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': token
+    })
+    return this.http.post(`${this.userService.url}/appointment/editAppointmentType`, appointment, { headers }).toPromise();
   }
 
   deleteAppointmentType(appointment) {
-    return this.http.post(`${this.userService.url}/appointment/deleteAppointmentType`, appointment).toPromise();
+    let token = sessionStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': token
+    })
+    return this.http.post(`${this.userService.url}/appointment/deleteAppointmentType`, appointment, { headers }).toPromise();
   }
 
   addAppointmentTypeToDoctor(doctor, app) {
@@ -100,7 +122,12 @@ export class DoctorService {
       doctor: doctor,
       appointmentType: app
     }
-    return this.http.post(`${this.userService.url}/appointment/addAppointmentTypeToDoctor`, appointmentType).toPromise();
+    let token = sessionStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': token
+    })
+    return this.http.post(`${this.userService.url}/appointment/addAppointmentTypeToDoctor`, appointmentType, { headers }).toPromise();
   }
 
   removeAppointmentTypeFromDoctor(doctor, app) {
@@ -108,7 +135,12 @@ export class DoctorService {
       doctor: doctor,
       appointmentType: app
     }
-    return this.http.post(`${this.userService.url}/appointment/removeAppointmentTypeFromDoctor`, appointmentType).toPromise();
+    let token = sessionStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': token
+    })
+    return this.http.post(`${this.userService.url}/appointment/removeAppointmentTypeFromDoctor`, appointmentType, { headers }).toPromise();
   }
 
   getDoctorAppointments(id) {
@@ -116,7 +148,12 @@ export class DoctorService {
   }
 
   writeAppointmentReport(appointment) {
-    return this.http.post(`${this.userService.url}/appointment/editAppointment`, appointment).toPromise();
+    let token = sessionStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': token
+    })
+   return this.http.post(`${this.userService.url}/appointment/editAppointment`, appointment, { headers }).toPromise();
   }
 
   getAppointmetTypesForDoctor(id) {
@@ -124,6 +161,11 @@ export class DoctorService {
   }
 
   sendQrCodeToPatient(appointment) {
-    return this.http.post(`${this.userService.url}/appointment/sendQrCodeToEmail`, appointment).toPromise();
+    let token = sessionStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': token
+    })
+    return this.http.post(`${this.userService.url}/appointment/sendQrCodeToEmail`, appointment, { headers }).toPromise();
   }
 }

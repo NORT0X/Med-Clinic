@@ -25,8 +25,17 @@ export const managerAuth = async (req,  res, next) => {
     let user = req.user
     console.log("managerAuth")
     if (user.userType != "Manager") {
-      return res.status(403).json({ error: 'Only manager can access this data!'})
+        return res.status(403).json({ error: 'Only manager can access this data!'})
     }
 
+    next()
+}
+
+export const doctorAuth = async (req, res, next) => {
+    let user = req.user
+    console.log("doctorAuth")
+    if (user.userType != "Doctor") {
+        return res.status(403).json({error: 'Only doctor can access this data!'})
+    }
     next()
 }
