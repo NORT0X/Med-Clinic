@@ -4,6 +4,8 @@ School project that uses MEAN stack.
 NodeJS and express for backend.  
 MongoDB for database  
 Angular for frontend.  
+  
+Note: design for frontend is simple as it can be with help of bootstrap (this means that this project is not oriented towards css and design of application)
 
 ## Run the project  
 
