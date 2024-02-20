@@ -12,13 +12,13 @@ Ensure that MongoDB is running with correct database (name of database is now se
 First install needed packages and start server inside backend folder use  
 ```
 npm install;
-npm run serve serve;
+npm run serve;
 ```
 
 To install needed packages and start frontend app inside frontend folder use  
 ```
-npm install
-ng serve
+npm install;
+ng serve;
 ```
 
 If everything is properly setup app should be running at http://localhost:4200/  
